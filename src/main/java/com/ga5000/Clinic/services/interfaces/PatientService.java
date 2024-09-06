@@ -6,4 +6,9 @@ import java.util.List;
 
 public interface PatientService {
     List<AppointmentDTO> getAllScheduledAppointments(Long patientId);
+    List<AppointmentDTO> getAppointmentHistory(Long patientId);
+    List<AppointmentDTO> getCanceledAppointments(Long patientId);
+    List<AppointmentDTO> getAllAppointments(Long patientId);
+
+    void cancelAppointment(Long patientId, Long appointmentId);
 }

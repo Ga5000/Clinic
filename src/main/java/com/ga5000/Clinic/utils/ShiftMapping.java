@@ -1,12 +1,14 @@
 package com.ga5000.Clinic.utils;
 
 import com.ga5000.Clinic.entities.enums.Shift;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Component
 public class ShiftMapping {
     private static final Map<Shift, TimeRange> shiftToTimeRange = new HashMap<>();
 

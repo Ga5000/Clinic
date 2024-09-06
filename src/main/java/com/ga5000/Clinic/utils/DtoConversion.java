@@ -2,7 +2,9 @@ package com.ga5000.Clinic.utils;
 
 import com.ga5000.Clinic.dtos.AppointmentDTO;
 import com.ga5000.Clinic.entities.Appointment;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DtoConversion {
     public static AppointmentDTO toAppointmentDTO(Appointment appointment){
         return new AppointmentDTO(
