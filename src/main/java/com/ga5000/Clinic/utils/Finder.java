@@ -7,9 +7,7 @@ import com.ga5000.Clinic.repositories.AppointmentRepository;
 import com.ga5000.Clinic.repositories.PatientRepository;
 import com.ga5000.Clinic.repositories.StaffRepository;
 
-import org.springframework.stereotype.Component;
 
-@Component
 public class Finder {
     private static PatientRepository patientRepository;
     private static StaffRepository staffRepository;

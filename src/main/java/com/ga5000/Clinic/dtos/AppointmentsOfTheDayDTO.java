@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public record AppointmentsOfTheDayDTO(
+        Long appointmentId,
         String patientName,
         Integer age,
         LocalDate birthDate,

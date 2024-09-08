@@ -25,14 +25,16 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public void cancelAppointment(Long appointmentId) {
+    public void cancelAppointment(Long appointmentId, Long doctorId) {
         Finder.findAppointmentById(appointmentId);
-        staffRepository.deleteById(appointmentId);
+        Finder.findStaffById(doctorId);
+        staffRepository.cancelAppointment(appointmentId,doctorId);
     }
 
     @Override
-    public void cancelAllAppointments() {
-
+    public void cancelAllAppointments(Long doctorId) {
+        Finder.findStaffById(doctorId);
+        staffRepository.cancelAllAppointments(doctorId);
     }
 
 

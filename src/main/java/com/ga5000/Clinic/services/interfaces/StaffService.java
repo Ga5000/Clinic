@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface StaffService {
     List<AppointmentsOfTheDayDTO> getAppointmentsOfTheDay(Long doctorId);
-    void cancelAppointment(Long appointmentId);
-    void cancelAllAppointments();
+    void cancelAppointment(Long appointmentId, Long doctorId);
+    void cancelAllAppointments(Long doctorId);
 }

@@ -15,6 +15,7 @@ import java.time.LocalTime;
 public class DtoConversion {
     public static AppointmentDTO toAppointmentDTO(Appointment appointment){
         return new AppointmentDTO(
+                appointment.getAppointmentId(),
                 appointment.getAppointmentDate(),
                 appointment.getAppointmentTime(),
                 appointment.getSpeciality(),
@@ -25,6 +26,7 @@ public class DtoConversion {
 
     public static AppointmentsOfTheDayDTO toAppointmentsOfTheDayDTO(Tuple tuple){
         return new AppointmentsOfTheDayDTO(
+                tuple.get("appointmentId", Long.class),
                 tuple.get("name", String.class),
                 tuple.get("age", Integer.class),
                 tuple.get("birthDate", LocalDate.class),
