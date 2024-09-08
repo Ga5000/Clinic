@@ -1,5 +1,6 @@
 package com.ga5000.Clinic.utils;
 
+
 import com.ga5000.Clinic.exceptions.AppointmentNotFoundException;
 import com.ga5000.Clinic.exceptions.PatientNotFoundException;
 import com.ga5000.Clinic.exceptions.StaffNotFoundException;
@@ -22,6 +23,11 @@ public class Finder {
 
     public static void findPatientById(Long patientId){
         patientRepository.findById(patientId)
+                .orElseThrow(() -> new PatientNotFoundException("Patient doesn't exist or wasn't found"));
+    }
+
+    public static void findPatientByEmail(String email){
+        patientRepository.findByEmail(email)
                 .orElseThrow(() -> new PatientNotFoundException("Patient doesn't exist or wasn't found"));
     }
 

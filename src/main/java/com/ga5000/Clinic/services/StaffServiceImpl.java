@@ -1,12 +1,13 @@
 package com.ga5000.Clinic.services;
 
-import com.ga5000.Clinic.dtos.AppointmentsOfTheDayDTO;
+import com.ga5000.Clinic.dtos.Appointment.DoctorAppointmentsDTO;
 import com.ga5000.Clinic.repositories.StaffRepository;
 import com.ga5000.Clinic.services.interfaces.StaffService;
 import com.ga5000.Clinic.utils.DtoConversion;
 import com.ga5000.Clinic.utils.Finder;
 
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class StaffServiceImpl implements StaffService {
@@ -18,10 +19,18 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public List<AppointmentsOfTheDayDTO> getAppointmentsOfTheDay(Long doctorId) {
+    public List<DoctorAppointmentsDTO> getAppointmentsOfTheDay(Long doctorId) {
         Finder.findStaffById(doctorId);
         return staffRepository.findAppointmentsOfTheDay(doctorId)
-                .stream().map(DtoConversion::toAppointmentsOfTheDayDTO).toList();
+                .stream().map(DtoConversion::toDoctorAppointmentsDTO).toList();
+    }
+
+    @Override
+    public List<DoctorAppointmentsDTO> getAllUpcomingAppointments(Long doctorId, Integer daysInterval) {
+        Finder.findStaffById(doctorId);
+        //                                                          startDate               endDate
+        return staffRepository.findUpcomingAppointments(doctorId, LocalDate.now(), LocalDate.now().plusDays(daysInterval))
+                .stream().map(DtoConversion::toDoctorAppointmentsDTO).toList();
     }
 
     @Override

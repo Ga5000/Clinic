@@ -1,7 +1,7 @@
 package com.ga5000.Clinic.services.interfaces;
 
-import com.ga5000.Clinic.dtos.AppointmentDTO;
-
+import com.ga5000.Clinic.dtos.Appointment.AppointmentDTO;
+import com.ga5000.Clinic.dtos.Patient.PatientDTO;
 import java.util.List;
 
 public interface PatientService {
@@ -11,4 +11,6 @@ public interface PatientService {
     List<AppointmentDTO> getAllAppointments(Long patientId);
 
     void cancelAppointment(Long patientId, Long appointmentId);
+
+    PatientDTO getPatientInfoById(Long patientId);
 }

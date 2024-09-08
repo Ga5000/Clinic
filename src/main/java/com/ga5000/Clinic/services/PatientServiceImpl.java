@@ -1,6 +1,7 @@
 package com.ga5000.Clinic.services;
 
-import com.ga5000.Clinic.dtos.AppointmentDTO;
+import com.ga5000.Clinic.dtos.Appointment.AppointmentDTO;
+import com.ga5000.Clinic.dtos.Patient.PatientDTO;
 import com.ga5000.Clinic.repositories.PatientRepository;
 import com.ga5000.Clinic.services.interfaces.PatientService;
 import com.ga5000.Clinic.utils.DtoConversion;
@@ -43,14 +44,20 @@ public class PatientServiceImpl implements PatientService {
     public List<AppointmentDTO> getAllAppointments(Long patientId) {
         Finder.findPatientById(patientId);
         return patientRepository.findAllAppointments(patientId)
-                .stream().map(DtoConversion::toAppointmentDTO).toList();
+                .stream().map(DtoConversion::toAllAppointmentsDTO).toList();
     }
 
     @Override
     public void cancelAppointment(Long patientId, Long appointmentId) {
         Finder.findPatientById(patientId);
         Finder.findAppointmentById(appointmentId);
-        patientRepository.deleteAppointmentByPatientIdAndAppointmentId(patientId,appointmentId);
+        patientRepository.cancelAppointment(patientId,appointmentId);
+    }
+
+    @Override
+    public PatientDTO getPatientInfoById(Long patientId) {
+        Finder.findPatientById(patientId);
+        return DtoConversion.toPatientDTO(patientRepository.findPatientInfoById(patientId));
     }
 
 

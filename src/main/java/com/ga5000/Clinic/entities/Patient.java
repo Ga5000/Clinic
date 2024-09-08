@@ -1,5 +1,6 @@
 package com.ga5000.Clinic.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ga5000.Clinic.entities.enums.AgeGroup;
 import com.ga5000.Clinic.entities.enums.Gender;
 import com.ga5000.Clinic.entities.enums.Role;
@@ -10,6 +11,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -27,6 +29,7 @@ public class Patient implements Serializable {
     private String email;
 
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
     @Column(nullable = false, unique = true)
@@ -159,5 +162,18 @@ public class Patient implements Serializable {
 
     public void setAppointments(Set<Appointment> appointments) {
         this.appointments = appointments != null ? appointments : new HashSet<>();
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Patient patient = (Patient) object;
+        return Objects.equals(email, patient.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(email);
     }
 }
