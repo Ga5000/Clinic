@@ -40,4 +40,9 @@ public class Finder {
         staffRepository.findById(staffId)
                 .orElseThrow(() -> new StaffNotFoundException("Staff doesn't exist or wasn't found"));
     }
+
+    public static void findStaffByEmail(String email){
+        staffRepository.findByEmail(email)
+                .orElseThrow(() -> new StaffNotFoundException("Staff doesn't exist or wasn't found"));
+    }
 }

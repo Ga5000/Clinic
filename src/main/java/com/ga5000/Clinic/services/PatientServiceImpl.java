@@ -1,5 +1,6 @@
 package com.ga5000.Clinic.services;
 
+import com.ga5000.Clinic.dtos.Appointment.AllAppointmentsDTO;
 import com.ga5000.Clinic.dtos.Appointment.AppointmentDTO;
 import com.ga5000.Clinic.dtos.Patient.PatientDTO;
 import com.ga5000.Clinic.repositories.PatientRepository;
@@ -41,7 +42,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public List<AppointmentDTO> getAllAppointments(Long patientId) {
+    public List<AllAppointmentsDTO> getAllAppointments(Long patientId) {
         Finder.findPatientById(patientId);
         return patientRepository.findAllAppointments(patientId)
                 .stream().map(DtoConversion::toAllAppointmentsDTO).toList();

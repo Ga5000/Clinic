@@ -7,7 +7,6 @@ import com.ga5000.Clinic.entities.enums.Speciality;
 import com.ga5000.Clinic.utils.CalculateAge;
 import jakarta.persistence.*;
 
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;

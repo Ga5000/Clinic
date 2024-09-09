@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface StaffRepository extends JpaRepository<Staff, Long> {
 
@@ -46,4 +47,10 @@ public interface StaffRepository extends JpaRepository<Staff, Long> {
     List<Tuple> findUpcomingAppointments(@Param("doctorId") Long doctorId,
                                          @Param("startDate") LocalDate startDate,
                                          @Param("endDate") LocalDate endDate);
+
+    @Query("SELECT s.staffId, s.name, s.email, s.age, s.birthDate, s.speciality, s.gender, s.role " +
+            "FROM Staff s WHERE s.staffId = :staffId")
+    Staff findStaffInfoById(@Param("staffId") Long staffId);
+
+    Optional<Staff> findByEmail(String email);
 }

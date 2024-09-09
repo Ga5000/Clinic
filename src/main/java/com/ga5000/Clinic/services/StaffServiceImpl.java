@@ -1,6 +1,7 @@
 package com.ga5000.Clinic.services;
 
 import com.ga5000.Clinic.dtos.Appointment.DoctorAppointmentsDTO;
+import com.ga5000.Clinic.dtos.Staff.StaffDTO;
 import com.ga5000.Clinic.repositories.StaffRepository;
 import com.ga5000.Clinic.services.interfaces.StaffService;
 import com.ga5000.Clinic.utils.DtoConversion;
@@ -44,6 +45,12 @@ public class StaffServiceImpl implements StaffService {
     public void cancelAllAppointments(Long doctorId) {
         Finder.findStaffById(doctorId);
         staffRepository.cancelAllAppointments(doctorId);
+    }
+
+    @Override
+    public StaffDTO getStaffInfoById(Long staffId) {
+        Finder.findStaffById(staffId);
+        return DtoConversion.toStaffDTO(staffRepository.findStaffInfoById(staffId));
     }
 
 
