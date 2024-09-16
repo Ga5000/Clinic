@@ -1,50 +1,73 @@
 package com.ga5000.Clinic.entities;
 
-import com.ga5000.Clinic.entities.enums.AppointmentStatus;
 import com.ga5000.Clinic.entities.enums.Speciality;
 import jakarta.persistence.*;
 
-import java.io.Serializable;
-import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
-@Table(name = "appointments")
-public class Appointment implements Serializable {
-
+public class Appointment {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long appointmentId;
 
     @Column(nullable = false)
-    private LocalDate appointmentDate;
+    private LocalDate date;
 
     @Column(nullable = false)
-    private Time appointmentTime;
+    private LocalTime time;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Speciality speciality;
+    @ManyToOne
+    @JoinColumn(name = "doctor_id", nullable = false)
+    private Doctor doctor;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private AppointmentStatus status = AppointmentStatus.SCHEDULED;
-
-    @ManyToOne @JoinColumn(name = "patientId", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
 
-    @ManyToOne @JoinColumn(name = "staffId", nullable = false)
-    private Staff doctor;
+    @Column(nullable = false)
+    private double fee;
 
-    public Appointment(Long appointmentId, LocalDate appointmentDate, Time appointmentTime, Speciality speciality,
-                       Patient patient, Staff doctor, AppointmentStatus status) {
+    public Appointment(Long appointmentId, LocalDate date, LocalTime time, Doctor doctor, Patient patient, double fee) {
         this.appointmentId = appointmentId;
-        this.appointmentDate = appointmentDate;
-        this.appointmentTime = appointmentTime;
-        this.speciality = speciality;
-        this.patient = patient;
+        this.date = date;
+        this.time = time;
         this.doctor = doctor;
-        this.status = status;
+        this.patient = patient;
+        setFeeBasedOnSpeciality(doctor.getSpeciality());
     }
+
+    private void setFeeBasedOnSpeciality(Speciality speciality){
+        switch (speciality) {
+            case CARDIOLOGY, ORTHOPEDICS:
+                this.fee = 200.0;
+                break;
+            case DERMATOLOGY:
+                this.fee = 180.0;
+                break;
+            case ENDOCRINOLOGY:
+                this.fee = 190.0;
+                break;
+            case GASTROENTEROLOGY, UROLOGY:
+                this.fee = 185.0;
+                break;
+            case NEUROLOGY:
+                this.fee = 210.0;
+                break;
+            case PEDIATRICS:
+                this.fee = 170.0;
+                break;
+            case PSYCHIATRY:
+                this.fee = 175.0;
+                break;
+            case RADIOLOGY:
+                this.fee = 195.0;
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown speciality: " + speciality);
+        }
+    }
+
 
     public Long getAppointmentId() {
         return appointmentId;
@@ -54,36 +77,29 @@ public class Appointment implements Serializable {
         this.appointmentId = appointmentId;
     }
 
-    public LocalDate getAppointmentDate() {
-        return appointmentDate;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setAppointmentDate(LocalDate appointmentDate) {
-        this.appointmentDate = appointmentDate;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
-    public Time getAppointmentTime() {
-        return appointmentTime;
+    public LocalTime getTime() {
+        return time;
     }
 
-    public void setAppointmentTime(Time appointmentTime) {
-        this.appointmentTime = appointmentTime;
+    public void setTime(LocalTime time) {
+        this.time = time;
     }
 
-    public Speciality getSpeciality() {
-        return speciality;
+    public Doctor getDoctor() {
+        return doctor;
     }
 
-    public void setSpeciality(Speciality speciality) {
-        this.speciality = speciality;
-    }
-
-    public AppointmentStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(AppointmentStatus status) {
-        this.status = status;
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+        setFeeBasedOnSpeciality(doctor.getSpeciality());
     }
 
     public Patient getPatient() {
@@ -94,11 +110,11 @@ public class Appointment implements Serializable {
         this.patient = patient;
     }
 
-    public Staff getDoctor() {
-        return doctor;
+    public double getFee() {
+        return fee;
     }
 
-    public void setDoctor(Staff doctor) {
-        this.doctor = doctor;
+    public void setFee(double fee) {
+        this.fee = fee;
     }
 }
