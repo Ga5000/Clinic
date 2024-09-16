@@ -1,10 +1,12 @@
 package com.ga5000.Clinic.entities;
 
 import com.ga5000.Clinic.entities.enums.Speciality;
+import com.ga5000.Clinic.utils.FeeUtil;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 public class Appointment {
@@ -35,6 +37,7 @@ public class Appointment {
         this.doctor = doctor;
         this.patient = patient;
         setFeeBasedOnSpeciality(doctor.getSpeciality());
+        applyDiscountIfApplicable();
     }
 
     private void setFeeBasedOnSpeciality(Speciality speciality){
@@ -66,6 +69,34 @@ public class Appointment {
             default:
                 throw new IllegalArgumentException("Unknown speciality: " + speciality);
         }
+    }
+
+    private void applyDiscountIfApplicable(){
+        List<Insurance> patientInsurances = patient.getInsurances();
+        List<Insurance> doctorInsurances = doctor.getInsurances();
+
+        double highestCoPaymentPercentage = getHighestCoPaymentPercentage(patientInsurances, doctorInsurances);
+
+        if (highestCoPaymentPercentage > 0) {
+            this.fee = FeeUtil.applyCoPaymentPercentage(this.fee, highestCoPaymentPercentage);
+        }
+    }
+
+    private static double getHighestCoPaymentPercentage(List<Insurance> patientInsurances,
+                                                        List<Insurance> doctorInsurances) {
+        double highestCoPaymentPercentage = 0.0;
+
+        for (Insurance patientInsurance : patientInsurances) {
+            for (Insurance doctorInsurance : doctorInsurances) {
+                if (patientInsurance.equals(doctorInsurance)) {
+                    double coPaymentPercentage = doctorInsurance.getCoPaymentPercentage();
+                    if (coPaymentPercentage > highestCoPaymentPercentage) {
+                        highestCoPaymentPercentage = coPaymentPercentage;
+                    }
+                }
+            }
+        }
+        return highestCoPaymentPercentage;
     }
 
 
@@ -100,6 +131,7 @@ public class Appointment {
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
         setFeeBasedOnSpeciality(doctor.getSpeciality());
+        applyDiscountIfApplicable();
     }
 
     public Patient getPatient() {
