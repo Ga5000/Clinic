@@ -10,9 +10,10 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Doctor extends Person{
     @Id
-    private String crm;
+    private String medicalLicense;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Speciality speciality;
 
     @Column(nullable = false)
@@ -32,10 +33,10 @@ public class Doctor extends Person{
 
 
     public Doctor(String name, String email, String phoneNumber, Address address,
-                  String crm, Speciality speciality, LocalTime startShift,
+                  String medicalLicense, Speciality speciality, LocalTime startShift,
                   LocalTime endShift, List<Appointment> appointments, List<Insurance> insurances) {
         super(name, email, phoneNumber, address);
-        this.crm = crm;
+        this.medicalLicense = medicalLicense;
         this.speciality = speciality;
         this.startShift = startShift;
         this.endShift = endShift;
@@ -43,12 +44,16 @@ public class Doctor extends Person{
         this.insurances = insurances;
     }
 
-    public String getCrm() {
-        return crm;
+    public Doctor(){
+        super();
     }
 
-    public void setCrm(String crm) {
-        this.crm = crm;
+    public String getMedicalLicense() {
+        return medicalLicense;
+    }
+
+    public void setMedicalLicense(String medicalLicense) {
+        this.medicalLicense = medicalLicense;
     }
 
     public Speciality getSpeciality() {

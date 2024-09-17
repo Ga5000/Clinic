@@ -1,42 +1,54 @@
 package com.ga5000.Clinic.entities.enums;
 
 public enum State {
-    AC("Acre"),
-    AL("Alagoas"),
-    AP("Amapá"),
-    AM("Amazonas"),
-    BA("Bahia"),
-    CE("Ceará"),
-    DF("Distrito Federal"),
-    ES("Espírito Santo"),
-    GO("Goiás"),
-    MA("Maranhão"),
-    MT("Mato Grosso"),
-    MS("Mato Grosso do Sul"),
-    MG("Minas Gerais"),
-    PA("Pará"),
-    PB("Paraíba"),
-    PR("Paraná"),
-    PE("Pernambuco"),
-    PI("Piauí"),
-    RJ("Rio de Janeiro"),
-    RN("Rio Grande do Norte"),
-    RS("Rio Grande do Sul"),
-    RO("Rondônia"),
-    RR("Roraima"),
-    SC("Santa Catarina"),
-    SP("São Paulo"),
-    SE("Sergipe"),
-    TO("Tocantins");
-
-    private final String name;
-
-    State(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
+    ALABAMA,
+    ALASKA,
+    ARIZONA,
+    ARKANSAS,
+    CALIFORNIA,
+    COLORADO,
+    CONNECTICUT,
+    DELAWARE,
+    FLORIDA,
+    GEORGIA,
+    HAWAII,
+    IDAHO,
+    ILLINOIS,
+    INDIANA,
+    IOWA,
+    KANSAS,
+    KENTUCKY,
+    LOUISIANA,
+    MAINE,
+    MARYLAND,
+    MASSACHUSETTS,
+    MICHIGAN,
+    MINNESOTA,
+    MISSISSIPPI,
+    MISSOURI,
+    MONTANA,
+    NEBRASKA,
+    NEVADA,
+    NEW_HAMPSHIRE,
+    NEW_JERSEY,
+    NEW_MEXICO,
+    NEW_YORK,
+    NORTH_CAROLINA,
+    NORTH_DAKOTA,
+    OHIO,
+    OKLAHOMA,
+    OREGON,
+    PENNSYLVANIA,
+    RHODE_ISLAND,
+    SOUTH_CAROLINA,
+    SOUTH_DAKOTA,
+    TENNESSEE,
+    TEXAS,
+    UTAH,
+    VERMONT,
+    VIRGINIA,
+    WASHINGTON,
+    WEST_VIRGINIA,
+    WISCONSIN,
+    WYOMING
 }
-

@@ -8,7 +8,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Patient extends Person {
     @Id
-    private String cpf;
+    private String ssn;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     private List<Appointment> appointments;
@@ -23,21 +23,25 @@ public class Patient extends Person {
     private List<Notification> notifications;
 
     public Patient(String name, String email, String phoneNumber, Address address,
-                   List<Notification> notifications, String cpf, List<Appointment> appointments,
+                   List<Notification> notifications, String ssn, List<Appointment> appointments,
                    List<Insurance> insurances) {
         super(name, email, phoneNumber, address);
-        this.cpf = cpf;
+        this.ssn = ssn;
         this.appointments = appointments;
         this.insurances = insurances;
         this.notifications = notifications;
     }
 
-    public String getCpf() {
-        return cpf;
+    public Patient(){
+        super();
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public String getSsn() {
+        return ssn;
+    }
+
+    public void setCpf(String ssn) {
+        this.ssn = ssn;
     }
 
     public List<Appointment> getAppointments() {

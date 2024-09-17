@@ -34,6 +34,8 @@ public class Insurance {
 
     }
 
+    public Insurance(){}
+
     private void setDefaultCoPaymentPercentage(InsuranceType type) {
         switch (type) {
             case BASIC, INDIVIDUAL:

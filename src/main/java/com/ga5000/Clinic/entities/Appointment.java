@@ -1,5 +1,6 @@
 package com.ga5000.Clinic.entities;
 
+import com.ga5000.Clinic.entities.enums.AppointmentStatus;
 import com.ga5000.Clinic.entities.enums.Speciality;
 import com.ga5000.Clinic.utils.FeeUtil;
 import jakarta.persistence.*;
@@ -30,15 +31,23 @@ public class Appointment {
     @Column(nullable = false)
     private double fee;
 
-    public Appointment(Long appointmentId, LocalDate date, LocalTime time, Doctor doctor, Patient patient, double fee) {
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private AppointmentStatus status;
+
+    public Appointment(Long appointmentId, LocalDate date, LocalTime time, Doctor doctor, Patient patient,
+                       double fee, AppointmentStatus status) {
         this.appointmentId = appointmentId;
         this.date = date;
         this.time = time;
         this.doctor = doctor;
         this.patient = patient;
+        this.status = AppointmentStatus.SCHEDULED;
         setFeeBasedOnSpeciality(doctor.getSpeciality());
         applyDiscountIfApplicable();
     }
+
+    public Appointment(){}
 
     private void setFeeBasedOnSpeciality(Speciality speciality){
         switch (speciality) {
@@ -131,7 +140,6 @@ public class Appointment {
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
         setFeeBasedOnSpeciality(doctor.getSpeciality());
-        applyDiscountIfApplicable();
     }
 
     public Patient getPatient() {
@@ -148,5 +156,13 @@ public class Appointment {
 
     public void setFee(double fee) {
         this.fee = fee;
+    }
+
+    public AppointmentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AppointmentStatus status) {
+        this.status = status;
     }
 }
