@@ -1,7 +1,9 @@
 package com.ga5000.Clinic.entities;
 
+import com.ga5000.Clinic.entities.enums.Genre;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -19,13 +21,13 @@ public class Patient extends Person {
             inverseJoinColumns = @JoinColumn(name = "insurance_id"))
     private List<Insurance> insurances;
 
-    @OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL)
     private List<Notification> notifications;
 
-    public Patient(String name, String email, String phoneNumber, Address address,
-                   List<Notification> notifications, String ssn, List<Appointment> appointments,
-                   List<Insurance> insurances) {
-        super(name, email, phoneNumber, address);
+    public Patient(String name, String password, String email, int age, LocalDate birthDate, Genre genre,
+                   String phoneNumber, Address address, String ssn, List<Appointment> appointments,
+                   List<Insurance> insurances, List<Notification> notifications) {
+        super(name, password, email, age, birthDate, genre, phoneNumber, address);
         this.ssn = ssn;
         this.appointments = appointments;
         this.insurances = insurances;

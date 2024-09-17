@@ -24,9 +24,8 @@ public class Insurance {
     @Column(nullable = false)
     private double coPaymentPercentage;
 
-    public Insurance(Long insuranceId, String enterprise, InsuranceType insuranceType, LocalDate expiresAt,
+    public Insurance(String enterprise, InsuranceType insuranceType, LocalDate expiresAt,
                      double coPaymentPercentage) {
-        this.insuranceId = insuranceId;
         this.enterprise = enterprise;
         this.insuranceType = insuranceType;
         this.expiresAt = expiresAt;

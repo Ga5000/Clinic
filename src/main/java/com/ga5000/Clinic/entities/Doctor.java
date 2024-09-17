@@ -1,8 +1,10 @@
 package com.ga5000.Clinic.entities;
 
+import com.ga5000.Clinic.entities.enums.Genre;
 import com.ga5000.Clinic.entities.enums.Speciality;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -32,10 +34,10 @@ public class Doctor extends Person{
     private List<Insurance> insurances;
 
 
-    public Doctor(String name, String email, String phoneNumber, Address address,
-                  String medicalLicense, Speciality speciality, LocalTime startShift,
-                  LocalTime endShift, List<Appointment> appointments, List<Insurance> insurances) {
-        super(name, email, phoneNumber, address);
+    public Doctor(String name, String password, String email, int age, LocalDate birthDate, Genre genre,
+                  String phoneNumber, Address address, String medicalLicense, Speciality speciality,
+                  LocalTime startShift, LocalTime endShift, List<Appointment> appointments, List<Insurance> insurances){
+        super(name, password, email, age, birthDate, genre, phoneNumber, address);
         this.medicalLicense = medicalLicense;
         this.speciality = speciality;
         this.startShift = startShift;
@@ -43,6 +45,7 @@ public class Doctor extends Person{
         this.appointments = appointments;
         this.insurances = insurances;
     }
+
 
     public Doctor(){
         super();
