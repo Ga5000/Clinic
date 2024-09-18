@@ -35,25 +35,38 @@ public class DataInitializer implements CommandLineRunner {
 
         insuranceRepository.saveAll(Arrays.asList(insurance1, insurance2));
 
-        // Create Address instances
+
         Address address1 = new Address("123 Elm St", 101, "Apt 1", "Downtown", "62704", "Springfield", State.ILLINOIS);
         Address address2 = new Address("456 Oak St", 202, "", "Suburbia", "62705", "Springfield", State.ILLINOIS);
 
-        // Create Doctor instances
+        DoctorAvailability availability1 = new DoctorAvailability(null, LocalDate.of(2024, 9, 18), LocalTime.of(8, 0), LocalTime.of(12, 0));
+        DoctorAvailability availability2 = new DoctorAvailability(null, LocalDate.of(2024, 9, 19), LocalTime.of(13, 0), LocalTime.of(16, 0));
+
+
+        DoctorAvailability availability3 = new DoctorAvailability(null, LocalDate.of(2024, 9, 18), LocalTime.of(9, 0), LocalTime.of(12, 0));
+        DoctorAvailability availability4 = new DoctorAvailability(null, LocalDate.of(2024, 9, 20), LocalTime.of(14, 0), LocalTime.of(17, 0));
+
         Doctor doctor1 = new Doctor("Dr. Smith", "password123", "smith@example.com", 45, LocalDate.of(1979, 5, 10),
                 Genre.MALE, "123-456-7890", address1, "DL123456", Speciality.CARDIOLOGY, LocalTime.of(8, 0), LocalTime.of(16, 0),
-                null, List.of(insurance1));
+                null, List.of(insurance1), List.of(availability1,availability2));
 
-
+        availability1.setDoctor(doctor1);
+        availability2.setDoctor(doctor1);
 
         Doctor doctor2 = new Doctor("Dr. Johnson", "password123", "johnson@example.com", 50, LocalDate.of(1974, 11, 22),
                 Genre.FEMALE, "987-654-3210", address2, "DL654321", Speciality.DERMATOLOGY, LocalTime.of(9, 0), LocalTime.of(17, 0),
-                null, List.of(insurance2));
+                null, List.of(insurance2), List.of(availability3,availability4));
+
+        availability3.setDoctor(doctor2);
+        availability4.setDoctor(doctor2);
+
+
+
+
 
 
         doctorRepository.saveAll(Arrays.asList(doctor1, doctor2));
 
-        // Create Patient instances
         Patient patient1 = new Patient("John Doe", "password123", "doe@example.com", 30, LocalDate.of(1994, 7, 18),
                 Genre.MALE, "555-1234", address1, "SSN123456789", null, List.of(insurance1), null);
 

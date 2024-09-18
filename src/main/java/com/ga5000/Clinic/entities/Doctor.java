@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Doctor extends Person{
+public class Doctor extends Person {
     @Id
     private String medicalLicense;
 
@@ -34,9 +34,13 @@ public class Doctor extends Person{
     private List<Insurance> insurances;
 
 
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DoctorAvailability> availabilities;
+
     public Doctor(String name, String password, String email, int age, LocalDate birthDate, Genre genre,
                   String phoneNumber, Address address, String medicalLicense, Speciality speciality,
-                  LocalTime startShift, LocalTime endShift, List<Appointment> appointments, List<Insurance> insurances){
+                  LocalTime startShift, LocalTime endShift, List<Appointment> appointments, List<Insurance> insurances,
+                  List<DoctorAvailability> availabilities) {
         super(name, password, email, age, birthDate, genre, phoneNumber, address);
         this.medicalLicense = medicalLicense;
         this.speciality = speciality;
@@ -44,10 +48,10 @@ public class Doctor extends Person{
         this.endShift = endShift;
         this.appointments = appointments;
         this.insurances = insurances;
+        this.availabilities = availabilities;
     }
 
-
-    public Doctor(){
+    public Doctor() {
         super();
     }
 
@@ -97,5 +101,13 @@ public class Doctor extends Person{
 
     public void setInsurances(List<Insurance> insurances) {
         this.insurances = insurances;
+    }
+
+    public List<DoctorAvailability> getAvailabilities() {
+        return availabilities;
+    }
+
+    public void setAvailabilities(List<DoctorAvailability> availabilities) {
+        this.availabilities = availabilities;
     }
 }
