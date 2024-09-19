@@ -76,8 +76,8 @@ public class DataInitializer implements CommandLineRunner {
         patientRepository.saveAll(Arrays.asList(patient1, patient2));
 
         // Create Appointment instances
-        Appointment appointment1 = new Appointment(null, LocalDate.of(2024, 9, 15), LocalTime.of(10, 30), doctor1, patient1, 200.0, AppointmentStatus.SCHEDULED);
-        Appointment appointment2 = new Appointment(null, LocalDate.of(2024, 9, 16), LocalTime.of(14, 0), doctor2, patient2, 180.0, AppointmentStatus.SCHEDULED);
+        Appointment appointment1 = new Appointment(LocalDate.of(2024, 9, 15), LocalTime.of(10, 30), doctor1, patient1, 200.0, AppointmentStatus.SCHEDULED);
+        Appointment appointment2 = new Appointment(LocalDate.of(2024, 9, 16), LocalTime.of(14, 0), doctor2, patient2, 180.0, AppointmentStatus.SCHEDULED);
         appointment1.setDoctor(doctor1);
         appointment2.setDoctor(doctor2);
         appointmentRepository.saveAll(List.of(appointment1, appointment2));

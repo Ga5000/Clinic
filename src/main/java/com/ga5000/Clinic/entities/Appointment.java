@@ -8,11 +8,12 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 public class Appointment {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long appointmentId;
+    @Id @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID appointmentId;
 
     @Column(nullable = false)
     private LocalDate date;
@@ -35,9 +36,8 @@ public class Appointment {
     @Enumerated(EnumType.STRING)
     private AppointmentStatus status;
 
-    public Appointment(Long appointmentId, LocalDate date, LocalTime time, Doctor doctor, Patient patient,
+    public Appointment(LocalDate date, LocalTime time, Doctor doctor, Patient patient,
                        double fee, AppointmentStatus status) {
-        this.appointmentId = appointmentId;
         this.date = date;
         this.time = time;
         this.doctor = doctor;
@@ -109,11 +109,11 @@ public class Appointment {
     }
 
 
-    public Long getAppointmentId() {
+    public UUID getAppointmentId() {
         return appointmentId;
     }
 
-    public void setAppointmentId(Long appointmentId) {
+    public void setAppointmentId(UUID appointmentId) {
         this.appointmentId = appointmentId;
     }
 
