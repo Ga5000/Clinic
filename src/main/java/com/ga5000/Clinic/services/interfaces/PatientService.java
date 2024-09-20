@@ -15,4 +15,5 @@ public interface PatientService {
     List<AppointmentDTO> getAppointmentsHistoryFilteredByDate(String ssn, LocalDate filterDate);
     List<AppointmentDTO> getAppointmentsHistoryFilteredBySpeciality(String ssn, Speciality speciality);
     List<AppointmentDTO>  getAppointmentsWithinDateRange(String ssn, LocalDate startDate, LocalDate endDate);
+    List<String> getCities();
 }

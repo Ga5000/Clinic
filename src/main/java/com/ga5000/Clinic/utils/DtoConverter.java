@@ -7,7 +7,6 @@ import com.ga5000.Clinic.entities.enums.AppointmentStatus;
 import com.ga5000.Clinic.entities.enums.Speciality;
 import jakarta.persistence.Tuple;
 
-import javax.print.Doc;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
@@ -32,7 +31,9 @@ public class DtoConverter {
                 doctor.getName(),
                 doctor.getEmail(),
                 doctor.getGenre(),
-                doctor.getSpeciality()
+                doctor.getSpeciality(),
+                doctor.getAddress().getCity(),
+                doctor.getAddress().getState()
 
         );
     }

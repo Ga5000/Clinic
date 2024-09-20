@@ -25,6 +25,7 @@ public abstract class Person {
     private LocalDate birthDate;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Genre genre;
 
 

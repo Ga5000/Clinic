@@ -14,6 +14,7 @@ public class Address {
     private String neighborhood;
     private String zip;
     private String city;
+
     @Enumerated(EnumType.STRING)
     private State state;
 

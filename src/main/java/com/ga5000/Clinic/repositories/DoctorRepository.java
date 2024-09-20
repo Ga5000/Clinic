@@ -16,6 +16,6 @@ public interface DoctorRepository extends JpaRepository<Doctor,String> {
 
     List<Doctor> findBySpeciality(Speciality speciality);
 
-    @Query("SELECT d FROM Doctor d JOIN d.insurances i WHERE i.insuranceId = :insuranceId")
-    List<Doctor> findDoctorsByInsurance(@Param("insuranceId") Long insuranceId);
+    @Query("SELECT d FROM Doctor d JOIN d.insurances i WHERE i.enterprise = :enterprise")
+    List<Doctor> findDoctorsThatAcceptInsuranceFromAnEnterprise(@Param("enterprise") String enterprise);
 }

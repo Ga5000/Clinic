@@ -22,7 +22,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
 
     // Method to cancel all appointments on a given date for a doctor
     @Query("UPDATE Appointment a SET a.status = 'CANCELED' WHERE a.date = :date and a.doctor.medicalLicense = :medicalLicense")
-    void cancelAllAppointmentsOfTheDay(@Param("medicalLicense") String medicalLicense, @Param("date") LocalDate date);
+    void cancelAllAppointmentsOfADay(@Param("medicalLicense") String medicalLicense, @Param("date") LocalDate date);
 
     // Method to find appointments filtered by date and doctor's medical license
     @Query("SELECT a.appointmentId as appointmentId, a.date as appointmentDate, a.time as appointmentTime," +

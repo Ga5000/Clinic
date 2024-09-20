@@ -54,7 +54,7 @@ public class PatientServiceImpl implements PatientService {
         }
 
         DoctorAvailability doctorAvailability = doctorAvailabilityRepository.
-                findAvailabilityForDoctor(doctor,selectedDate,selectedTime,blockedEndTime);
+                findAvailabilityForDoctor(medicalLicense,selectedDate,selectedTime,blockedEndTime);
 
         doctorAvailability.markAsBooked();
         doctorAvailabilityRepository.save(doctorAvailability);
@@ -100,6 +100,11 @@ public class PatientServiceImpl implements PatientService {
         Finder.findPatientBySsn(ssn);
         return patientRepository.findAppointmentsWithinDateRange(ssn, startDate, endDate)
                 .stream().map(DtoConverter::covertToAppointmentDTO).toList();
+    }
+
+    @Override
+    public List<String> getCities() {
+        return doctorAvailabilityRepository.findCities();
     }
 
     private boolean isTimeSlotAvailable(Doctor doctor, LocalTime startTime, LocalTime endTime){
