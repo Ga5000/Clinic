@@ -8,7 +8,9 @@ import com.ga5000.Clinic.entities.Doctor;
 import com.ga5000.Clinic.entities.DoctorAvailability;
 import com.ga5000.Clinic.entities.Patient;
 import com.ga5000.Clinic.entities.enums.AppointmentStatus;
+import com.ga5000.Clinic.entities.enums.City;
 import com.ga5000.Clinic.entities.enums.Speciality;
+import com.ga5000.Clinic.entities.enums.State;
 import com.ga5000.Clinic.repositories.AppointmentRepository;
 import com.ga5000.Clinic.repositories.DoctorAvailabilityRepository;
 import com.ga5000.Clinic.repositories.DoctorRepository;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,7 +46,7 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     @Transactional
-    public void bookAppointment(String ssn, String medicalLicense, LocalDate selectedDate, LocalTime selectedTime) {
+    public void bookAppointment(String ssn, String medicalLicense, LocalDate selectedDate, LocalTime selectedTime, State state, City city) {
         Patient patient = Finder.findAndReturnPatientBySsn(ssn);
         Doctor doctor = Finder.findAndReturnDoctorByMedicalLicense(medicalLicense);
 
@@ -54,7 +57,7 @@ public class PatientServiceImpl implements PatientService {
         }
 
         DoctorAvailability doctorAvailability = doctorAvailabilityRepository.
-                findAvailabilityForDoctor(medicalLicense,selectedDate,selectedTime,blockedEndTime);
+                findAvailabilityForDoctor(medicalLicense,selectedDate, state, city,selectedTime,blockedEndTime);
 
         doctorAvailability.markAsBooked();
         doctorAvailabilityRepository.save(doctorAvailability);
@@ -103,8 +106,13 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public List<String> getCities() {
-        return doctorAvailabilityRepository.findCities();
+    public List<City> getCities() {
+        return Arrays.asList(City.class.getEnumConstants());
+    }
+
+    @Override
+    public List<State> getStates() {
+        return Arrays.asList(State.class.getEnumConstants());
     }
 
     private boolean isTimeSlotAvailable(Doctor doctor, LocalTime startTime, LocalTime endTime){

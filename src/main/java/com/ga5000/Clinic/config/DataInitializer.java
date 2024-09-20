@@ -36,8 +36,8 @@ public class DataInitializer implements CommandLineRunner {
         insuranceRepository.saveAll(Arrays.asList(insurance1, insurance2));
 
 
-        Address address1 = new Address("123 Elm St", 101, "Apt 1", "Downtown", "62704", "Springfield", State.ILLINOIS);
-        Address address2 = new Address("456 Oak St", 202, "", "Suburbia", "62705", "Springfield", State.ILLINOIS);
+        Address address1 = new Address("123 Elm St", 101, "Apt 1", "Downtown", "62704", City.SPRINGFIELD, State.ILLINOIS);
+        Address address2 = new Address("456 Oak St", 202, "", "Suburbia", "62705", City.SPRINGFIELD, State.ILLINOIS);
 
         DoctorAvailability availability1 = new DoctorAvailability(null, LocalDate.of(2024, 9, 18), LocalTime.of(8, 0), LocalTime.of(12, 0));
         DoctorAvailability availability2 = new DoctorAvailability(null, LocalDate.of(2024, 9, 19), LocalTime.of(13, 0), LocalTime.of(16, 0));

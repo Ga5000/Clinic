@@ -1,5 +1,6 @@
 package com.ga5000.Clinic.entities;
 
+import com.ga5000.Clinic.entities.enums.City;
 import com.ga5000.Clinic.entities.enums.State;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
@@ -13,13 +14,14 @@ public class Address {
     private String complement;
     private String neighborhood;
     private String zip;
-    private String city;
+    @Enumerated(EnumType.STRING)
+    private City city;
 
     @Enumerated(EnumType.STRING)
     private State state;
 
     public Address(String street, int number, String complement, String neighborhood, String zip,
-                   String city, State state) {
+                   City city, State state) {
         this.street = street;
         this.number = number;
         this.complement = complement;
@@ -71,11 +73,11 @@ public class Address {
         this.zip = cep;
     }
 
-    public String getCity() {
+    public City getCity() {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(City city) {
         this.city = city;
     }
 
