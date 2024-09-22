@@ -1,5 +1,6 @@
 package com.ga5000.Clinic.repositories;
 
+import com.ga5000.Clinic.dtos.PatientDTO;
 import com.ga5000.Clinic.entities.Patient;
 import com.ga5000.Clinic.entities.enums.Speciality;
 import jakarta.persistence.Tuple;
@@ -43,6 +44,7 @@ public interface PatientRepository extends JpaRepository<Patient, String> {
             "FROM Appointment a JOIN a.doctor d " +
             "WHERE a.patient.ssn = :ssn AND a.date BETWEEN :startDate AND :endDate")
     List<Tuple> findAppointmentsWithinDateRange(@Param("ssn") String ssn, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
 
 
 }

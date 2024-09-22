@@ -24,9 +24,6 @@ public class DoctorAvailability {
     @Column(nullable = false)
     private LocalTime endTime;
 
-    @Column(nullable = false)
-    private boolean isAvailable = true;
-
    public DoctorAvailability() {
     }
 
@@ -77,17 +74,5 @@ public class DoctorAvailability {
         this.endTime = endTime;
     }
 
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    public void setAvailable(boolean available) {
-        isAvailable = available;
-    }
-
-
-    public void markAsBooked() {
-        this.isAvailable = false;
-    }
 
 }

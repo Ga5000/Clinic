@@ -1,6 +1,7 @@
 package com.ga5000.Clinic.services.interfaces;
 
 import com.ga5000.Clinic.dtos.AppointmentDTO;
+import com.ga5000.Clinic.dtos.PatientDTO;
 import com.ga5000.Clinic.entities.enums.City;
 import com.ga5000.Clinic.entities.enums.Speciality;
 import com.ga5000.Clinic.entities.enums.State;
@@ -19,4 +20,5 @@ public interface PatientService {
     List<AppointmentDTO>  getAppointmentsWithinDateRange(String ssn, LocalDate startDate, LocalDate endDate);
     List<City> getCities();
     List<State> getStates();
+    PatientDTO getInfo(String ssn);
 }

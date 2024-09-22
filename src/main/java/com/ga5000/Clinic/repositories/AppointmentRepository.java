@@ -41,4 +41,5 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
                                                               @Param("filterDate") LocalDate filterDate,
                                                               @Param("startTime") LocalTime startTime,
                                                               @Param("endTime") LocalTime endTime);
+
 }

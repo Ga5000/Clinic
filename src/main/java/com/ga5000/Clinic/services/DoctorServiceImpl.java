@@ -17,36 +17,38 @@ import java.util.UUID;
 public class DoctorServiceImpl implements DoctorService {
     private final DoctorRepository doctorRepository;
     private final AppointmentRepository appointmentRepository;
+    private final Finder finder;
 
-    public DoctorServiceImpl(DoctorRepository doctorRepository, AppointmentRepository appointmentRepository) {
+    public DoctorServiceImpl(DoctorRepository doctorRepository, AppointmentRepository appointmentRepository, Finder finder) {
         this.doctorRepository = doctorRepository;
         this.appointmentRepository = appointmentRepository;
+        this.finder = finder;
     }
 
     @Override
     public void cancelAppointment(String medicalLicense, UUID appointmentId) {
-        Finder.findDoctorByMedicalLicense(medicalLicense);
-        Finder.findAppointmentById(appointmentId);
+       finder.findDoctorByMedicalLicense(medicalLicense);
+        finder.findAppointmentById(appointmentId);
 
         appointmentRepository.cancelAppointmentForDoctor(medicalLicense, appointmentId);
     }
 
     @Override
     public void cancelAllAppointmentsOfADay(String medicalLicense, LocalDate date) {
-        Finder.findDoctorByMedicalLicense(medicalLicense);
+        finder.findDoctorByMedicalLicense(medicalLicense);
         appointmentRepository.cancelAllAppointmentsOfADay(medicalLicense, date);
     }
 
     @Override
     public List<AppointmentDTO> getDoctorAppointmentsFilteredByDate(String medicalLicense, LocalDate filterDate) {
-        Finder.findDoctorByMedicalLicense(medicalLicense);
+        finder.findDoctorByMedicalLicense(medicalLicense);
         return appointmentRepository.findAppointmentsFilteredByDate(medicalLicense, filterDate)
                 .stream().map(DtoConverter::covertToAppointmentDTO).toList();
     }
 
     @Override
     public List<AppointmentDTO> getDoctorAppointmentsWithinTimeRangeFilteredByDate(String medicalLicense, LocalDate filterDate, LocalTime startTime, LocalTime endTime) {
-        Finder.findDoctorByMedicalLicense(medicalLicense);
+        finder.findDoctorByMedicalLicense(medicalLicense);
         return appointmentRepository.findAppointmentsWithinTimeRangeFilteredByDate(medicalLicense, filterDate, startTime, endTime)
                 .stream().map(DtoConverter::covertToAppointmentDTO).toList();
     }

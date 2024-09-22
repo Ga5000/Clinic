@@ -18,4 +18,5 @@ public interface DoctorService {
 
     List<DoctorDTO> getDoctorsByEnterpriseAcceptance(String enterprise);
     List<DoctorDTO> getDoctorsBySpeciality(Speciality speciality);
+
 }

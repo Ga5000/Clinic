@@ -3,50 +3,57 @@ package com.ga5000.Clinic.utils;
 import com.ga5000.Clinic.entities.Appointment;
 import com.ga5000.Clinic.entities.Doctor;
 import com.ga5000.Clinic.entities.Patient;
-import com.ga5000.Clinic.repositories.AppointmentRepository;
-import com.ga5000.Clinic.repositories.DoctorRepository;
-import com.ga5000.Clinic.repositories.InsuranceRepository;
-import com.ga5000.Clinic.repositories.PatientRepository;
+import com.ga5000.Clinic.repositories.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+@Component
 public class Finder {
 
-    public static PatientRepository patientRepository;
-    public static DoctorRepository doctorRepository;
-    public static AppointmentRepository appointmentRepository;
-    public static InsuranceRepository insuranceRepository;
+    private final PatientRepository patientRepository;
+    private final DoctorRepository doctorRepository;
+    private final AppointmentRepository appointmentRepository;
+    private final InsuranceRepository insuranceRepository;
+    private final DoctorAvailabilityRepository doctorAvailabilityRepository;
 
-    public Finder(PatientRepository patientRepository, DoctorRepository doctorRepository,
-                  AppointmentRepository appointmentRepository, InsuranceRepository insuranceRepository) {
-        Finder.patientRepository = patientRepository;
-        Finder.doctorRepository = doctorRepository;
-        Finder.appointmentRepository = appointmentRepository;
-        Finder.insuranceRepository = insuranceRepository;
+    public Finder(PatientRepository patientRepository, DoctorRepository doctorRepository, AppointmentRepository appointmentRepository,
+                  InsuranceRepository insuranceRepository, DoctorAvailabilityRepository doctorAvailabilityRepository) {
+        this.patientRepository = patientRepository;
+        this.doctorRepository = doctorRepository;
+        this.appointmentRepository = appointmentRepository;
+        this.insuranceRepository = insuranceRepository;
+        this.doctorAvailabilityRepository = doctorAvailabilityRepository;
     }
 
-    public static void findPatientBySsn(String ssn){
-        Patient patient = patientRepository.findById(ssn)
+    public void findPatientBySsn(String ssn) {
+        patientRepository.findById(ssn)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
     }
 
-    public static void findDoctorByMedicalLicense(String medicalLicense){
-        Doctor doctor = doctorRepository.findById(medicalLicense)
+    public void findDoctorByMedicalLicense(String medicalLicense) {
+        doctorRepository.findById(medicalLicense)
                 .orElseThrow(() -> new RuntimeException("Doctor not found"));
     }
 
-    public static void findAppointmentById(UUID appointmentId){
-        Appointment appointment = appointmentRepository.findById(appointmentId)
+    public void findAppointmentById(UUID appointmentId) {
+        appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));
     }
 
-    public static Patient findAndReturnPatientBySsn(String ssn){
+    public void findAvailabilityById(Long availabilityId){
+        doctorAvailabilityRepository.findById(availabilityId)
+                .orElseThrow(() -> new RuntimeException("Availability not found"));
+    }
+    public Patient findAndReturnPatientBySsn(String ssn) {
         return patientRepository.findById(ssn)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
     }
 
-    public static Doctor findAndReturnDoctorByMedicalLicense(String medicalLicense){
+    public Doctor findAndReturnDoctorByMedicalLicense(String medicalLicense) {
         return doctorRepository.findById(medicalLicense)
                 .orElseThrow(() -> new RuntimeException("Doctor not found"));
     }
+
 }

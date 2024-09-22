@@ -3,6 +3,7 @@ package com.ga5000.Clinic.services;
 
 import com.ga5000.Clinic.dtos.AppointmentDTO;
 import com.ga5000.Clinic.dtos.DoctorDTO;
+import com.ga5000.Clinic.dtos.PatientDTO;
 import com.ga5000.Clinic.entities.Appointment;
 import com.ga5000.Clinic.entities.Doctor;
 import com.ga5000.Clinic.entities.DoctorAvailability;
@@ -35,107 +36,83 @@ public class PatientServiceImpl implements PatientService {
     private final DoctorAvailabilityRepository doctorAvailabilityRepository;
     private final DoctorRepository doctorRepository;
 
+    private final Finder finder;
+
     public PatientServiceImpl(PatientRepository patientRepository, AppointmentRepository appointmentRepository,
                               DoctorAvailabilityRepository doctorAvailabilityRepository,
-                              DoctorRepository doctorRepository) {
+                              DoctorRepository doctorRepository, Finder finder) {
         this.patientRepository = patientRepository;
         this.appointmentRepository = appointmentRepository;
         this.doctorAvailabilityRepository = doctorAvailabilityRepository;
         this.doctorRepository = doctorRepository;
+        this.finder = finder;
     }
 
     @Override
     @Transactional
     public void bookAppointment(String ssn, String medicalLicense, LocalDate selectedDate, LocalTime selectedTime, State state, City city) {
-        Patient patient = Finder.findAndReturnPatientBySsn(ssn);
-        Doctor doctor = Finder.findAndReturnDoctorByMedicalLicense(medicalLicense);
+        Patient patient = finder.findAndReturnPatientBySsn(ssn);
 
-        LocalTime blockedEndTime = selectedTime.plusMinutes(30);
-
-        if(!isTimeSlotAvailable(doctor,selectedTime,blockedEndTime)){
-            throw new IllegalArgumentException("The selected time is not available");
-        }
-
-        DoctorAvailability doctorAvailability = doctorAvailabilityRepository.
-                findAvailabilityForDoctor(medicalLicense,selectedDate, state, city,selectedTime,blockedEndTime);
-
-        doctorAvailability.markAsBooked();
-        doctorAvailabilityRepository.save(doctorAvailability);
-
-        Appointment appointment = new Appointment(selectedDate,selectedTime,doctor,patient,0,
-                                                  AppointmentStatus.SCHEDULED);
-
-        appointmentRepository.save(appointment);
     }
+
 
     @Transactional
     @Override
     public void cancelAppointment(String ssn, UUID appointmentId) {
-        Finder.findPatientBySsn(ssn);
-        Finder.findAppointmentById(appointmentId);
+        finder.findPatientBySsn(ssn);
+        finder.findAppointmentById(appointmentId);
 
         appointmentRepository.cancelAppointment(ssn,appointmentId);
     }
 
     @Override
     public List<AppointmentDTO> getMyAppointments(String ssn) {
-        Finder.findPatientBySsn(ssn);
+        finder.findPatientBySsn(ssn);
         return patientRepository.findMyAppointments(ssn)
                 .stream().map(DtoConverter::covertToAppointmentDTO).toList();
     }
 
     @Override
     public List<AppointmentDTO> getAppointmentsHistoryFilteredByDate(String ssn, LocalDate filterDate) {
-        Finder.findPatientBySsn(ssn);
+        finder.findPatientBySsn(ssn);
         return patientRepository.findAppointmentHistoryFilteredByDate(ssn,filterDate)
                 .stream().map(DtoConverter::covertToAppointmentDTO).toList();
     }
 
     @Override
     public List<AppointmentDTO> getAppointmentsHistoryFilteredBySpeciality(String ssn, Speciality speciality) {
-        Finder.findPatientBySsn(ssn);
+        finder.findPatientBySsn(ssn);
         return patientRepository.findAppointmentsHistoryFilteredBySpeciality(ssn, speciality)
                 .stream().map(DtoConverter::covertToAppointmentDTO).toList();
     }
 
     @Override
     public List<AppointmentDTO> getAppointmentsWithinDateRange(String ssn, LocalDate startDate, LocalDate endDate) {
-        Finder.findPatientBySsn(ssn);
+        finder.findPatientBySsn(ssn);
         return patientRepository.findAppointmentsWithinDateRange(ssn, startDate, endDate)
                 .stream().map(DtoConverter::covertToAppointmentDTO).toList();
     }
 
     @Override
     public List<City> getCities() {
-        return Arrays.asList(City.class.getEnumConstants());
+        return Arrays.stream(City.values())
+                .sorted((city1, city2) -> city1.name().compareToIgnoreCase(city2.name())).toList();
     }
 
     @Override
     public List<State> getStates() {
-        return Arrays.asList(State.class.getEnumConstants());
+        return Arrays.stream(State.values())
+                .sorted((state1, state2) -> state1.name().compareToIgnoreCase(state2.name())).toList();
+
     }
 
-    private boolean isTimeSlotAvailable(Doctor doctor, LocalTime startTime, LocalTime endTime){
-        List<DoctorAvailability> availableSlots = doctor.getAvailabilities();
-        return  availableSlots.removeIf(slot -> slot.getStartTime().isBefore(endTime)
-                && slot.getEndTime().isAfter(startTime));
+    @Override
+    public PatientDTO getInfo(String ssn) {
+        Patient patient = finder.findAndReturnPatientBySsn(ssn);
+        return DtoConverter.convertToPatientDTO(patient);
     }
 
-    private void updateDoctorAvailability(Doctor doctor, LocalTime startTime, LocalTime endTime) {
-        List<DoctorAvailability> availableSlots = doctor.getAvailabilities();
-        availableSlots.removeIf(slot -> slot.getStartTime().isBefore(endTime) && slot.getEndTime().isAfter(startTime));
-        doctor.setAvailabilities(availableSlots);
-        doctorRepository.save(doctor);
-    }
 
-    public List<DoctorDTO> getAvailableDoctors(LocalDate date, LocalTime startTime, LocalTime endTime, Speciality speciality){
-        List<DoctorAvailability> availableSlots = doctorAvailabilityRepository.
-                findByDateAndTimeRangeAndSpeciality(date, startTime, endTime,speciality);
-
-        return availableSlots.stream()
-                .map(DoctorAvailability::getDoctor).distinct()
-                .map(DtoConverter::covertToDoctorDTO).toList();
-    }
 
 
 
