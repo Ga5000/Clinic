@@ -21,4 +21,5 @@ public interface PatientService {
     List<City> getCities();
     List<State> getStates();
     PatientDTO getInfo(String ssn);
+
 }

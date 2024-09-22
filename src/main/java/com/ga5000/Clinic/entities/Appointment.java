@@ -164,5 +164,6 @@ public class Appointment {
 
     public void setStatus(AppointmentStatus status) {
         this.status = status;
+        this.status = AppointmentStatus.SCHEDULED;
     }
 }

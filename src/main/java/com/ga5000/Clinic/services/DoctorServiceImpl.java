@@ -2,12 +2,14 @@ package com.ga5000.Clinic.services;
 
 import com.ga5000.Clinic.dtos.AppointmentDTO;
 import com.ga5000.Clinic.dtos.DoctorDTO;
+import com.ga5000.Clinic.entities.Appointment;
 import com.ga5000.Clinic.entities.enums.Speciality;
 import com.ga5000.Clinic.repositories.AppointmentRepository;
 import com.ga5000.Clinic.repositories.DoctorRepository;
 import com.ga5000.Clinic.services.interfaces.DoctorService;
 import com.ga5000.Clinic.utils.DtoConverter;
 import com.ga5000.Clinic.utils.Finder;
+import jakarta.persistence.Tuple;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -47,15 +49,22 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public List<AppointmentDTO> getDoctorAppointmentsFilteredByDate(String medicalLicense, LocalDate filterDate) {
         finder.findDoctorByMedicalLicense(medicalLicense);
-        return appointmentRepository.findAppointmentsFilteredByDate(medicalLicense, filterDate)
-                .stream().map(DtoConverter::covertToAppointmentDTO).toList();
+        List<Tuple> appointmentList =  appointmentRepository.findAppointmentsFilteredByDate(medicalLicense, filterDate);
+        if(appointmentList.isEmpty()){
+            throw new RuntimeException("No appointments found for this date");
+        }
+
+        return appointmentList.stream().map(DtoConverter::covertToAppointmentDTO).toList();
     }
 
     @Override
     public List<AppointmentDTO> getDoctorAppointmentsWithinTimeRangeFilteredByDate(String medicalLicense, LocalDate filterDate, LocalTime startTime, LocalTime endTime) {
         finder.findDoctorByMedicalLicense(medicalLicense);
-        return appointmentRepository.findAppointmentsWithinTimeRangeFilteredByDate(medicalLicense, filterDate, startTime, endTime)
-                .stream().map(DtoConverter::covertToAppointmentDTO).toList();
+        List<Tuple> appointmentList = appointmentRepository.findAppointmentsWithinTimeRangeFilteredByDate(medicalLicense, filterDate, startTime, endTime);
+                if(appointmentList.isEmpty()){
+                    throw new RuntimeException("No appointments found");
+                }
+                return appointmentList.stream().map(DtoConverter::covertToAppointmentDTO).toList();
     }
 
     @Override

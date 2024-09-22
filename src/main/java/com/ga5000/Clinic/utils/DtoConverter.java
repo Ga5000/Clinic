@@ -1,11 +1,9 @@
 package com.ga5000.Clinic.utils;
 
-import com.ga5000.Clinic.dtos.AppointmentDTO;
-import com.ga5000.Clinic.dtos.DoctorAvailabilityDTO;
-import com.ga5000.Clinic.dtos.DoctorDTO;
-import com.ga5000.Clinic.dtos.PatientDTO;
+import com.ga5000.Clinic.dtos.*;
 import com.ga5000.Clinic.entities.Doctor;
 import com.ga5000.Clinic.entities.DoctorAvailability;
+import com.ga5000.Clinic.entities.Insurance;
 import com.ga5000.Clinic.entities.Patient;
 import com.ga5000.Clinic.entities.enums.AppointmentStatus;
 import com.ga5000.Clinic.entities.enums.Speciality;
@@ -50,7 +48,8 @@ public class DtoConverter {
                 patient.getAddress(),
                 patient.getGenre(),
                 patient.getAge(),
-                patient.getPhoneNumber()
+                patient.getPhoneNumber(),
+                patient.getInsurances().stream().map(DtoConverter::convertToInsuranceDTO).toList()
         );
     }
 
@@ -62,6 +61,15 @@ public class DtoConverter {
                 doctorAvailability.getDate(),
                 doctorAvailability.getStartTime(),
                 doctorAvailability.getEndTime()
+        );
+    }
+
+    public static InsuranceDTO convertToInsuranceDTO(Insurance insurance){
+        return new InsuranceDTO(
+                insurance.getInsuranceId(),
+                insurance.getEnterprise(),
+                insurance.getCoPaymentPercentage(),
+                insurance.getInsuranceType()
         );
     }
 }

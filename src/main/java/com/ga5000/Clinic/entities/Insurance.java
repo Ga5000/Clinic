@@ -5,6 +5,7 @@ import com.ga5000.Clinic.entities.enums.InsuranceType;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 public class Insurance {
@@ -107,5 +108,18 @@ public class Insurance {
 
     public void setCoPaymentPercentage(double coPaymentPercentage) {
         this.coPaymentPercentage = coPaymentPercentage;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Insurance insurance = (Insurance) object;
+        return Objects.equals(insuranceId, insurance.insuranceId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(insuranceId);
     }
 }

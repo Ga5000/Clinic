@@ -42,6 +42,9 @@ public class PatientServiceImpl implements PatientService {
     @Override
     @Transactional
     public void bookAppointment(String ssn, String medicalLicense, LocalDate selectedDate, LocalTime selectedTime) {
+        if(selectedDate.isBefore(LocalDate.now())){
+            throw new RuntimeException("Appointment date can't be before today");
+        }
         Patient patient = finder.findAndReturnPatientBySsn(ssn);
         Doctor doctor = finder.findAndReturnDoctorByMedicalLicense(medicalLicense);
 
@@ -111,9 +114,6 @@ public class PatientServiceImpl implements PatientService {
         Patient patient = finder.findAndReturnPatientBySsn(ssn);
         return DtoConverter.convertToPatientDTO(patient);
     }
-
-
-
 
 
 

@@ -30,15 +30,23 @@ public class DoctorAvailabilityServiceImpl implements DoctorAvailabilityService 
     @Override
     public List<DoctorDTO> getAvailableDoctorsWithNoConflictingAppointments(LocalDate date, LocalTime startTime,
                                                                             LocalTime endTime, City city, State state) {
-        return doctorAvailabilityRepository.findAvailableDoctorsWithNoConflictingAppointments(date, startTime, endTime, city, state)
-                .stream().map(DtoConverter::covertToDoctorDTO).toList();
+        List<Doctor> doctorList = doctorAvailabilityRepository.findAvailableDoctorsWithNoConflictingAppointments(date, startTime, endTime, city, state);
+        if(doctorList.isEmpty()){
+            throw new RuntimeException("No Available doctors for selected date or time");
+        }
+            return doctorList.stream().map(DtoConverter::covertToDoctorDTO).toList();
     }
 
     @Override
     public List<DoctorAvailabilityDTO> getAllDoctorAvailability(String medicalLicense) {
         finder.findDoctorByMedicalLicense(medicalLicense);
-        return doctorAvailabilityRepository.findAll().stream().map(DtoConverter::convertToDoctorAvailabilityDTO)
+        List<DoctorAvailability> availabilityList = doctorAvailabilityRepository.findAll();
+            if(availabilityList.isEmpty()){
+            throw new RuntimeException("This doctor doesn't have any availability");
+            }
+                return availabilityList.stream().map(DtoConverter::convertToDoctorAvailabilityDTO)
                 .toList();
+
     }
 
     @Override
@@ -52,7 +60,7 @@ public class DoctorAvailabilityServiceImpl implements DoctorAvailabilityService 
     @Override
     @Transactional
     public void updateAvailability(Long availabilityId, String medicalLicense, LocalDate newDate, LocalTime newStartTime, LocalTime newEndTime) {
-        DoctorAvailability availability = finder.findAndReturnAvailability(availabilityId);
+        DoctorAvailability availability = finder.findAndReturnAvailabilityById(availabilityId);
         finder.findDoctorByMedicalLicense(medicalLicense);
         availability.setDate(newDate);
         availability.setStartTime(newStartTime);
