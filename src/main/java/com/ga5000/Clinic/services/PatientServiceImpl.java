@@ -2,19 +2,15 @@ package com.ga5000.Clinic.services;
 
 
 import com.ga5000.Clinic.dtos.AppointmentDTO;
-import com.ga5000.Clinic.dtos.DoctorDTO;
 import com.ga5000.Clinic.dtos.PatientDTO;
 import com.ga5000.Clinic.entities.Appointment;
 import com.ga5000.Clinic.entities.Doctor;
-import com.ga5000.Clinic.entities.DoctorAvailability;
 import com.ga5000.Clinic.entities.Patient;
 import com.ga5000.Clinic.entities.enums.AppointmentStatus;
 import com.ga5000.Clinic.entities.enums.City;
 import com.ga5000.Clinic.entities.enums.Speciality;
 import com.ga5000.Clinic.entities.enums.State;
 import com.ga5000.Clinic.repositories.AppointmentRepository;
-import com.ga5000.Clinic.repositories.DoctorAvailabilityRepository;
-import com.ga5000.Clinic.repositories.DoctorRepository;
 import com.ga5000.Clinic.repositories.PatientRepository;
 import com.ga5000.Clinic.services.interfaces.PatientService;
 import com.ga5000.Clinic.utils.DtoConverter;
@@ -33,26 +29,30 @@ public class PatientServiceImpl implements PatientService {
 
     private final PatientRepository patientRepository;
     private final AppointmentRepository appointmentRepository;
-    private final DoctorAvailabilityRepository doctorAvailabilityRepository;
-    private final DoctorRepository doctorRepository;
 
     private final Finder finder;
 
     public PatientServiceImpl(PatientRepository patientRepository, AppointmentRepository appointmentRepository,
-                              DoctorAvailabilityRepository doctorAvailabilityRepository,
-                              DoctorRepository doctorRepository, Finder finder) {
+                              Finder finder) {
         this.patientRepository = patientRepository;
         this.appointmentRepository = appointmentRepository;
-        this.doctorAvailabilityRepository = doctorAvailabilityRepository;
-        this.doctorRepository = doctorRepository;
         this.finder = finder;
     }
 
     @Override
     @Transactional
-    public void bookAppointment(String ssn, String medicalLicense, LocalDate selectedDate, LocalTime selectedTime, State state, City city) {
+    public void bookAppointment(String ssn, String medicalLicense, LocalDate selectedDate, LocalTime selectedTime) {
         Patient patient = finder.findAndReturnPatientBySsn(ssn);
+        Doctor doctor = finder.findAndReturnDoctorByMedicalLicense(medicalLicense);
 
+        Appointment newAppointment = new Appointment();
+        newAppointment.setPatient(patient);
+        newAppointment.setDoctor(doctor);
+        newAppointment.setDate(selectedDate);
+        newAppointment.setTime(selectedTime);
+        newAppointment.setStatus(AppointmentStatus.SCHEDULED);
+
+        appointmentRepository.save(newAppointment);
     }
 
 

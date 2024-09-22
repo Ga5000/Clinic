@@ -4,15 +4,20 @@ import com.ga5000.Clinic.dtos.DoctorAvailabilityDTO;
 import com.ga5000.Clinic.dtos.DoctorDTO;
 import com.ga5000.Clinic.entities.Doctor;
 import com.ga5000.Clinic.entities.DoctorAvailability;
+import com.ga5000.Clinic.entities.enums.City;
+import com.ga5000.Clinic.entities.enums.State;
 import com.ga5000.Clinic.repositories.DoctorAvailabilityRepository;
 import com.ga5000.Clinic.services.interfaces.DoctorAvailabilityService;
 import com.ga5000.Clinic.utils.DtoConverter;
 import com.ga5000.Clinic.utils.Finder;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+@Service
 public class DoctorAvailabilityServiceImpl implements DoctorAvailabilityService {
     private final DoctorAvailabilityRepository doctorAvailabilityRepository;
     private final Finder finder;
@@ -24,7 +29,7 @@ public class DoctorAvailabilityServiceImpl implements DoctorAvailabilityService 
 
     @Override
     public List<DoctorDTO> getAvailableDoctorsWithNoConflictingAppointments(LocalDate date, LocalTime startTime,
-                                                                            LocalTime endTime, String city, String state) {
+                                                                            LocalTime endTime, City city, State state) {
         return doctorAvailabilityRepository.findAvailableDoctorsWithNoConflictingAppointments(date, startTime, endTime, city, state)
                 .stream().map(DtoConverter::covertToDoctorDTO).toList();
     }
@@ -37,10 +42,32 @@ public class DoctorAvailabilityServiceImpl implements DoctorAvailabilityService 
     }
 
     @Override
+    @Transactional
     public void addAvailability(String medicalLicense, LocalDate date, LocalTime startTime, LocalTime endTime) {
         Doctor doctor = finder.findAndReturnDoctorByMedicalLicense(medicalLicense);
         DoctorAvailability newAvailability = new DoctorAvailability(doctor,date,startTime,endTime);
         doctorAvailabilityRepository.save(newAvailability);
     }
+
+    @Override
+    @Transactional
+    public void updateAvailability(Long availabilityId, String medicalLicense, LocalDate newDate, LocalTime newStartTime, LocalTime newEndTime) {
+        DoctorAvailability availability = finder.findAndReturnAvailability(availabilityId);
+        finder.findDoctorByMedicalLicense(medicalLicense);
+        availability.setDate(newDate);
+        availability.setStartTime(newStartTime);
+        availability.setEndTime(newEndTime);
+        doctorAvailabilityRepository.save(availability);
+    }
+
+    @Override
+    @Transactional
+    public void deleteAvailability(Long availabilityId, String medicalLicense) {
+        finder.findAvailabilityById(availabilityId);
+        finder.findDoctorByMedicalLicense(medicalLicense);
+
+        doctorAvailabilityRepository.deleteById(availabilityId);
+    }
+
 
 }

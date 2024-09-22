@@ -2,6 +2,7 @@ package com.ga5000.Clinic.utils;
 
 import com.ga5000.Clinic.entities.Appointment;
 import com.ga5000.Clinic.entities.Doctor;
+import com.ga5000.Clinic.entities.DoctorAvailability;
 import com.ga5000.Clinic.entities.Patient;
 import com.ga5000.Clinic.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +56,11 @@ public class Finder {
         return doctorRepository.findById(medicalLicense)
                 .orElseThrow(() -> new RuntimeException("Doctor not found"));
     }
+
+    public DoctorAvailability findAndReturnAvailability(Long availabilityId){
+        return doctorAvailabilityRepository.findById(availabilityId)
+                .orElseThrow(() -> new RuntimeException("Availability not found"));
+    }
+
 
 }

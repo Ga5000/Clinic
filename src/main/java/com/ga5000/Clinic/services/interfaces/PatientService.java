@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface PatientService {
-    void bookAppointment(String ssn, String medicalLicense, LocalDate date, LocalTime time, State state, City city);
+    void bookAppointment(String ssn, String medicalLicense, LocalDate date, LocalTime time);
     void cancelAppointment(String ssn, UUID appointmentId);
     List<AppointmentDTO> getMyAppointments(String ssn);
     List<AppointmentDTO> getAppointmentsHistoryFilteredByDate(String ssn, LocalDate filterDate);

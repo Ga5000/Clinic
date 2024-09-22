@@ -14,6 +14,7 @@ public class Address {
     private String complement;
     private String neighborhood;
     private String zip;
+
     @Enumerated(EnumType.STRING)
     private City city;
 

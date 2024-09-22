@@ -8,12 +8,15 @@ import com.ga5000.Clinic.repositories.DoctorRepository;
 import com.ga5000.Clinic.services.interfaces.DoctorService;
 import com.ga5000.Clinic.utils.DtoConverter;
 import com.ga5000.Clinic.utils.Finder;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class DoctorServiceImpl implements DoctorService {
     private final DoctorRepository doctorRepository;
     private final AppointmentRepository appointmentRepository;
@@ -26,6 +29,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional
     public void cancelAppointment(String medicalLicense, UUID appointmentId) {
        finder.findDoctorByMedicalLicense(medicalLicense);
         finder.findAppointmentById(appointmentId);
@@ -34,6 +38,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional
     public void cancelAllAppointmentsOfADay(String medicalLicense, LocalDate date) {
         finder.findDoctorByMedicalLicense(medicalLicense);
         appointmentRepository.cancelAllAppointmentsOfADay(medicalLicense, date);

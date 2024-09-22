@@ -3,16 +3,17 @@ package com.ga5000.Clinic.repositories;
 import com.ga5000.Clinic.entities.Doctor;
 import com.ga5000.Clinic.entities.DoctorAvailability;
 import com.ga5000.Clinic.entities.enums.City;
-import com.ga5000.Clinic.entities.enums.Speciality;
 import com.ga5000.Clinic.entities.enums.State;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+@Repository
 public interface DoctorAvailabilityRepository extends JpaRepository<DoctorAvailability, Long> {
 
     @Query("SELECT d FROM DoctorAvailability da " +
@@ -26,8 +27,8 @@ public interface DoctorAvailabilityRepository extends JpaRepository<DoctorAvaila
             @Param("date") LocalDate date,
             @Param("startTime") LocalTime startTime,
             @Param("endTime") LocalTime endTime,
-            @Param("city") String city,
-            @Param("state") String state
+            @Param("city") City city,
+            @Param("state") State state
     );
 
 }
