@@ -44,4 +44,9 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
                                                               @Param("startTime") LocalTime startTime,
                                                               @Param("endTime") LocalTime endTime);
 
+
+    @Query("UPDATE Appointment a SET a.status = 'FINISHED' WHERE a.appointmentId = :appointmentId")
+    void setAsFinished(@Param("appointmentId") UUID appointmentId);
+
+
 }

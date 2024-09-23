@@ -2,6 +2,7 @@ package com.ga5000.Clinic.services;
 
 
 import com.ga5000.Clinic.dtos.AppointmentDTO;
+import com.ga5000.Clinic.dtos.BookAppointmentDTO;
 import com.ga5000.Clinic.dtos.PatientDTO;
 import com.ga5000.Clinic.entities.Appointment;
 import com.ga5000.Clinic.entities.Doctor;
@@ -115,6 +116,12 @@ public class PatientServiceImpl implements PatientService {
         return DtoConverter.convertToPatientDTO(patient);
     }
 
+    @Override
+    public BookAppointmentDTO confirmAppointmentData(String patientName, String patientEmail, String doctorName,
+                                                     Speciality speciality, LocalDate date, LocalTime time, double fee) {
+        return new BookAppointmentDTO(patientName, patientEmail, doctorName, speciality,
+                date, time, fee);
+    }
 
 
 }

@@ -1,10 +1,7 @@
 package com.ga5000.Clinic.utils;
 
 import com.ga5000.Clinic.dtos.*;
-import com.ga5000.Clinic.entities.Doctor;
-import com.ga5000.Clinic.entities.DoctorAvailability;
-import com.ga5000.Clinic.entities.Insurance;
-import com.ga5000.Clinic.entities.Patient;
+import com.ga5000.Clinic.entities.*;
 import com.ga5000.Clinic.entities.enums.AppointmentStatus;
 import com.ga5000.Clinic.entities.enums.Speciality;
 import jakarta.persistence.Tuple;
@@ -24,6 +21,18 @@ public class DtoConverter {
                 data.get("appointmentStatus", AppointmentStatus.class),
                 data.get("doctorName", String.class),
                 data.get("doctorSpeciality", Speciality.class)
+        );
+    }
+
+    public static AppointmentDTO convertToAppointmentDTOUsingAppointment(Appointment appointment){
+        return new AppointmentDTO(
+                appointment.getAppointmentId(),
+                appointment.getDate(),
+                appointment.getTime(),
+                appointment.getFee(),
+                appointment.getStatus(),
+                appointment.getDoctor().getName(),
+                appointment.getDoctor().getSpeciality()
         );
     }
 
