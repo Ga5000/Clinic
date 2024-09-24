@@ -3,6 +3,7 @@ package com.ga5000.Clinic.repositories;
 import com.ga5000.Clinic.entities.Appointment;
 import jakarta.persistence.Tuple;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -16,13 +17,16 @@ import java.util.UUID;
 public interface AppointmentRepository extends JpaRepository<Appointment, UUID> {
 
     // Method to cancel an appointment by ID and ssn of a patient
+    @Modifying
     @Query("UPDATE Appointment a SET a.status = 'CANCELED' WHERE a.appointmentId = :appointmentId and a.patient.ssn = :ssn")
     void cancelAppointment(@Param("ssn") String ssn, @Param("appointmentId") UUID appointmentId);
 
+    @Modifying
     @Query("UPDATE Appointment a SET a.status = 'CANCELED' WHERE a.appointmentId = :appointmentId and a.doctor.medicalLicense = :medicalLicense")
     void cancelAppointmentForDoctor(@Param("medicalLicense") String medicalLicense, @Param("appointmentId") UUID appointmentId);
 
     // Method to cancel all appointments on a given date for a doctor
+    @Modifying
     @Query("UPDATE Appointment a SET a.status = 'CANCELED' WHERE a.date = :date and a.doctor.medicalLicense = :medicalLicense")
     void cancelAllAppointmentsOfADay(@Param("medicalLicense") String medicalLicense, @Param("date") LocalDate date);
 
@@ -45,6 +49,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
                                                               @Param("endTime") LocalTime endTime);
 
 
+    @Modifying
     @Query("UPDATE Appointment a SET a.status = 'FINISHED' WHERE a.appointmentId = :appointmentId")
     void setAsFinished(@Param("appointmentId") UUID appointmentId);
 

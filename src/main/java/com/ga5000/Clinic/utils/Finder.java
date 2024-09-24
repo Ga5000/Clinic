@@ -2,7 +2,6 @@ package com.ga5000.Clinic.utils;
 
 import com.ga5000.Clinic.entities.*;
 import com.ga5000.Clinic.repositories.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;

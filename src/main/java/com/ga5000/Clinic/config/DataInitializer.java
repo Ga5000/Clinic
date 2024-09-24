@@ -3,7 +3,6 @@ package com.ga5000.Clinic.config;
 import com.ga5000.Clinic.entities.*;
 import com.ga5000.Clinic.entities.enums.*;
 import com.ga5000.Clinic.repositories.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -15,21 +14,29 @@ import java.util.List;
 @Component
 public class DataInitializer implements CommandLineRunner {
 
-    @Autowired
-    private PatientRepository patientRepository;
 
-    @Autowired
-    private DoctorRepository doctorRepository;
+    private final PatientRepository patientRepository;
 
-    @Autowired
-    private AppointmentRepository appointmentRepository;
 
-    @Autowired
-    private InsuranceRepository insuranceRepository;
+    private final DoctorRepository doctorRepository;
+
+
+    private final AppointmentRepository appointmentRepository;
+
+
+    private final InsuranceRepository insuranceRepository;
+
+    public DataInitializer(PatientRepository patientRepository, DoctorRepository doctorRepository,
+                           AppointmentRepository appointmentRepository, InsuranceRepository insuranceRepository) {
+        this.patientRepository = patientRepository;
+        this.doctorRepository = doctorRepository;
+        this.appointmentRepository = appointmentRepository;
+        this.insuranceRepository = insuranceRepository;
+    }
 
     @Override
     public void run(String... args) throws Exception {
-        // Create Insurance instances
+
         Insurance insurance1 = new Insurance("HealthCorp", InsuranceType.PREMIUM, LocalDate.of(2025, 12, 31), 10.0);
         Insurance insurance2 = new Insurance("WellCare", InsuranceType.STANDARD, LocalDate.of(2025, 12, 31), 15.0);
 
