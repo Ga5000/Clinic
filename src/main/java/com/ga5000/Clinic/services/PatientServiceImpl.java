@@ -30,13 +30,15 @@ public class PatientServiceImpl implements PatientService {
 
     private final PatientRepository patientRepository;
     private final AppointmentRepository appointmentRepository;
+    private final NotificationServiceImpl notificationService;
 
     private final Finder finder;
 
     public PatientServiceImpl(PatientRepository patientRepository, AppointmentRepository appointmentRepository,
-                              Finder finder) {
+                              NotificationServiceImpl notificationService, Finder finder) {
         this.patientRepository = patientRepository;
         this.appointmentRepository = appointmentRepository;
+        this.notificationService = notificationService;
         this.finder = finder;
     }
 
@@ -57,6 +59,7 @@ public class PatientServiceImpl implements PatientService {
         newAppointment.setStatus(AppointmentStatus.SCHEDULED);
 
         appointmentRepository.save(newAppointment);
+        notificationService.sendNotification(ssn,newAppointment);
     }
 
 

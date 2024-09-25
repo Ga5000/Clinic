@@ -10,6 +10,7 @@ import com.ga5000.Clinic.services.interfaces.NotificationService;
 import com.ga5000.Clinic.utils.Finder;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -54,8 +55,13 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void sendReminderNotification(LocalDate tomorrow) {
+    @Scheduled(cron = "0 0 18 * * ?")
+    public void sendReminderNotification() {
+        LocalDate tomorrow = LocalDate.now().plusDays(1);
         List<Patient> recipients = notificationRepository.findPatientsWithAppointmentsOneDayPrior(tomorrow);
+        if(recipients.isEmpty()){
+            throw new RuntimeException("No patients found");
+        }
 
         for (Patient patient : recipients) {
             for (Appointment appointment : patient.getAppointments()) {
