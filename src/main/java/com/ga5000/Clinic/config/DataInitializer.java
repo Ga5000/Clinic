@@ -54,14 +54,14 @@ public class DataInitializer implements CommandLineRunner {
         DoctorAvailability availability4 = new DoctorAvailability(null, LocalDate.of(2024, 9, 20), LocalTime.of(14, 0), LocalTime.of(17, 0));
 
         Doctor doctor1 = new Doctor("Dr. Smith", "password123", "smith@example.com", 45, LocalDate.of(1979, 5, 10),
-                Genre.MALE, "123-456-7890", address1, "DL123456", Speciality.CARDIOLOGY, LocalTime.of(8, 0), LocalTime.of(16, 0),
+                Genre.MALE, "123-456-7890", address1, Role.DOCTOR,true, "DL123456", Speciality.CARDIOLOGY, LocalTime.of(8, 0), LocalTime.of(16, 0),
                 null, List.of(insurance1), List.of(availability1,availability2));
 
         availability1.setDoctor(doctor1);
         availability2.setDoctor(doctor1);
 
         Doctor doctor2 = new Doctor("Dr. Johnson", "password123", "johnson@example.com", 50, LocalDate.of(1974, 11, 22),
-                Genre.FEMALE, "987-654-3210", address2, "DL654321", Speciality.DERMATOLOGY, LocalTime.of(9, 0), LocalTime.of(17, 0),
+                Genre.FEMALE, "987-654-3210", address2,Role.DOCTOR,true, "DL654321", Speciality.DERMATOLOGY, LocalTime.of(9, 0), LocalTime.of(17, 0),
                 null, List.of(insurance2), List.of(availability3,availability4));
 
         availability3.setDoctor(doctor2);
@@ -75,10 +75,10 @@ public class DataInitializer implements CommandLineRunner {
         doctorRepository.saveAll(Arrays.asList(doctor1, doctor2));
 
         Patient patient1 = new Patient("John Doe", "password123", "doe@example.com", 30, LocalDate.of(1994, 7, 18),
-                Genre.MALE, "555-1234", address1, "SSN123456789", null, List.of(insurance1), null);
+                Genre.MALE, "555-1234", address1, Role.PATIENT,true, "SSN123456789", null, List.of(insurance1), null);
 
         Patient patient2 = new Patient("Jane Roe", "password123", "roe@example.com", 28, LocalDate.of(1996, 2, 14),
-                Genre.FEMALE, "555-5678", address2, "SSN987654321", null, List.of(insurance2), null);
+                Genre.FEMALE, "555-5678", address2, Role.PATIENT,true, "SSN987654321", null, List.of(insurance2), null);
 
         patientRepository.saveAll(Arrays.asList(patient1, patient2));
 

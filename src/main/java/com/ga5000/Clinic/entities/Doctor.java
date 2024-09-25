@@ -1,11 +1,15 @@
 package com.ga5000.Clinic.entities;
 
 import com.ga5000.Clinic.entities.enums.Genre;
+import com.ga5000.Clinic.entities.enums.Role;
 import com.ga5000.Clinic.entities.enums.Speciality;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -38,10 +42,10 @@ public class Doctor extends Person {
     private List<DoctorAvailability> availabilities;
 
     public Doctor(String name, String password, String email, int age, LocalDate birthDate, Genre genre,
-                  String phoneNumber, Address address, String medicalLicense, Speciality speciality,
+                  String phoneNumber, Address address, Role role, boolean enabled, String medicalLicense, Speciality speciality,
                   LocalTime startShift, LocalTime endShift, List<Appointment> appointments, List<Insurance> insurances,
                   List<DoctorAvailability> availabilities) {
-        super(name, password, email, age, birthDate, genre, phoneNumber, address);
+        super(name, password, email, age, birthDate, genre, phoneNumber, address, role, enabled);
         this.medicalLicense = medicalLicense;
         this.speciality = speciality;
         this.startShift = startShift;
@@ -49,10 +53,16 @@ public class Doctor extends Person {
         this.appointments = appointments;
         this.insurances = insurances;
         this.availabilities = availabilities;
+        setRole(Role.DOCTOR);
     }
 
     public Doctor() {
         super();
+    }
+
+    @Override
+    public List<GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_DOCTOR"));
     }
 
     public String getMedicalLicense() {

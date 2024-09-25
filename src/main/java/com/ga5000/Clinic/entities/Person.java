@@ -1,10 +1,12 @@
 package com.ga5000.Clinic.entities;
 
 import com.ga5000.Clinic.entities.enums.Genre;
+import com.ga5000.Clinic.entities.enums.Role;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.time.LocalDate;
-
+import java.util.List;
 
 @MappedSuperclass
 public abstract class Person {
@@ -36,17 +38,26 @@ public abstract class Person {
     @Column(nullable = false)
     private Address address;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
+    @Column(nullable = false)
+    private boolean enabled;
+
 
     public Person(String name, String password, String email, int age, LocalDate birthDate,
-                  Genre genre, String phoneNumber, Address address) {
+                  Genre genre, String phoneNumber, Address address, Role role, boolean enabled) {
         this.name = name;
         this.password = password;
         this.email = email;
+        this.age = age;
         this.birthDate = birthDate;
-        this.age = calculateAge(this.birthDate);
         this.genre = genre;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.enabled = true;
+        this.role = role;
     }
 
     public Person() {
@@ -118,9 +129,23 @@ public abstract class Person {
         this.address = address;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
 
     protected int calculateAge(LocalDate birthDate){
         return birthDate != null ? LocalDate.now().getYear() - birthDate.getYear() : 0;
     }
+
+    public abstract List<GrantedAuthority> getAuthorities();
 
 }
