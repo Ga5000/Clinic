@@ -24,7 +24,6 @@ public class PatientController {
 
         patientService.bookAppointment(ssn, medicalLicense, selectedDate, selectedTime);
         return ResponseEntity.ok("Appointment booked");
-
     }
 
 

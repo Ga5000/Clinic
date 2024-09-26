@@ -15,6 +15,8 @@ import java.util.Optional;
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, String> {
 
+    Optional<Patient> findByEmail(String email);
+
     // Get a list of appointments for a patient with details of the appointment and doctor
     @Query("SELECT a.appointmentId as appointmentId, a.date as appointmentDate, a.time as appointmentTime, a.fee as appointmentFee," +
             " a.status as appointmentStatus, d.name as doctorName, d.speciality as doctorSpeciality " +
