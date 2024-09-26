@@ -1,7 +1,6 @@
 package com.ga5000.Clinic.services.interfaces;
 
 import com.ga5000.Clinic.dtos.AppointmentDTO;
-import com.ga5000.Clinic.dtos.BookAppointmentDTO;
 import com.ga5000.Clinic.dtos.PatientDTO;
 import com.ga5000.Clinic.entities.enums.City;
 import com.ga5000.Clinic.entities.enums.Speciality;
@@ -22,8 +21,5 @@ public interface PatientService {
     List<City> getCities();
     List<State> getStates();
     PatientDTO getInfo(String ssn);
-
-    BookAppointmentDTO confirmAppointmentData(String patientName, String patientEmail, String doctorName,
-                                              Speciality speciality, LocalDate date, LocalTime time, double fee);
 
 }

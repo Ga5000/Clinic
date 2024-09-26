@@ -119,12 +119,6 @@ public class PatientServiceImpl implements PatientService {
         return DtoConverter.convertToPatientDTO(patient);
     }
 
-    @Override
-    public BookAppointmentDTO confirmAppointmentData(String patientName, String patientEmail, String doctorName,
-                                                     Speciality speciality, LocalDate date, LocalTime time, double fee) {
-        return new BookAppointmentDTO(patientName, patientEmail, doctorName, speciality,
-                date, time, fee);
-    }
 
 
 }

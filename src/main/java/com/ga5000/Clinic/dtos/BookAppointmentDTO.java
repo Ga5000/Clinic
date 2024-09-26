@@ -5,6 +5,5 @@ import com.ga5000.Clinic.entities.enums.Speciality;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public record BookAppointmentDTO(String patientName, String patientEmail, String doctorName,
-                                 Speciality speciality, LocalDate date, LocalTime time, double fee) {
+public record BookAppointmentDTO(String ssn, String medicalLicense, LocalDate date, LocalTime time){
 }
