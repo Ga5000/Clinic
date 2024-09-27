@@ -4,9 +4,9 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.ga5000.Clinic.entities.Person;
 import com.ga5000.Clinic.services.interfaces.TokenService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -19,16 +19,19 @@ public class TokenServiceImpl implements TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
     @Override
-    public String generateToken(Person person) {
-       try{
-           Algorithm algorithm = Algorithm.HMAC256(secret);
-            return JWT.create()
+    public String generateToken(UserDetails user) {
+        String token;
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            token = JWT.create()
                     .withIssuer("clinic-api")
                     .withExpiresAt(generateExpirationDate())
                     .sign(algorithm);
-       }catch (JWTCreationException e) {
-           throw new RuntimeException("Error while generating token");
-       }
+
+        } catch (JWTCreationException e) {
+            throw new RuntimeException("Error while generating token");
+        }
+        return token;
     }
 
     @Override
@@ -36,7 +39,7 @@ public class TokenServiceImpl implements TokenService {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
-                    .withIssuer("library-api")
+                    .withIssuer("clinic-api")
                     .build()
                     .verify(token)
                     .getSubject();

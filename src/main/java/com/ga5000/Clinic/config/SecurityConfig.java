@@ -33,6 +33,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/patients").hasRole("PATIENT")
 
                         .requestMatchers(HttpMethod.GET, "/**").permitAll()
                         .anyRequest().authenticated()

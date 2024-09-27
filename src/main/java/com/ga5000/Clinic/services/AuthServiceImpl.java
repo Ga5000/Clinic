@@ -5,7 +5,6 @@ import com.ga5000.Clinic.dtos.RegisterPatientDTO;
 import com.ga5000.Clinic.entities.Address;
 import com.ga5000.Clinic.entities.Doctor;
 import com.ga5000.Clinic.entities.Patient;
-import com.ga5000.Clinic.entities.Person;
 import com.ga5000.Clinic.entities.enums.Role;
 import com.ga5000.Clinic.repositories.DoctorRepository;
 import com.ga5000.Clinic.repositories.PatientRepository;
@@ -43,9 +42,10 @@ public class AuthServiceImpl implements AuthService {
         newPatient.setName(registerPatientDTO.name());
         newPatient.setEmail(registerPatientDTO.email());
         newPatient.setPassword(encodedPassword);
+        newPatient.setPhoneNumber(registerPatientDTO.phoneNumber());
         newPatient.setBirthDate(registerPatientDTO.birthDate());
+        newPatient.setGenre(registerPatientDTO.genre());
         newPatient.setRole(Role.PATIENT);
-        newPatient.setInsurances(registerPatientDTO.insurances());
 
         newPatient.setAddress(new Address(registerPatientDTO.street(), registerPatientDTO.number(),
                 registerPatientDTO.complement(), registerPatientDTO.neighborhood(), registerPatientDTO.zip(),
@@ -91,9 +91,9 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String loginUser(String email, String password) {
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
-        if (userDetails == null || !passwordEncoder.matches(password, ((Person) userDetails).getPassword())) {
+        if (userDetails == null || !passwordEncoder.matches(password, userDetails.getPassword())) {
             return null;
         }
-        return tokenService.generateToken((Person) userDetails);
+        return tokenService.generateToken(userDetails);
     }
 }

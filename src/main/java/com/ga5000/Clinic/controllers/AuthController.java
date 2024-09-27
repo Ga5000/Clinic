@@ -1,5 +1,6 @@
 package com.ga5000.Clinic.controllers;
 
+import com.ga5000.Clinic.dtos.LoginDTO;
 import com.ga5000.Clinic.dtos.RegisterDoctorDTO;
 import com.ga5000.Clinic.dtos.RegisterPatientDTO;
 import com.ga5000.Clinic.services.AuthServiceImpl;
@@ -37,7 +38,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(String email, String password){
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(authService.loginUser(email, password));
+    public ResponseEntity<Object> login(@RequestBody @Valid LoginDTO loginDTO){
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(authService.loginUser(loginDTO.email(), loginDTO.password()));
     }
 }

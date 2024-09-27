@@ -1,8 +1,8 @@
 package com.ga5000.Clinic.services.interfaces;
 
-import com.ga5000.Clinic.entities.Person;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public interface TokenService {
-    String generateToken(Person person);
+    String generateToken(UserDetails user);
     String extractUsername(String token);
 }
