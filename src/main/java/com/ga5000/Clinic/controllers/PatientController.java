@@ -34,7 +34,7 @@ public class PatientController {
     public ResponseEntity<String> bookAppointment(@RequestBody @Valid BookAppointmentDTO bookAppointmentDTO) {
         patientService.bookAppointment(bookAppointmentDTO.ssn(), bookAppointmentDTO.medicalLicense(),
                 bookAppointmentDTO.date(), bookAppointmentDTO.time());
-        return ResponseEntity.status(HttpStatus.OK).body("Appointment booked");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Appointment booked");
     }
 
     @GetMapping("/my-appointments/{ssn}")
