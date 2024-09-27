@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/patients")
@@ -57,7 +58,7 @@ public class PatientController {
         return checkEmptyList(appointments);
     }
 
-    @GetMapping("/appointments/history/date-time-range")
+    @GetMapping("/appointments/history/range/date-time")
     public ResponseEntity<Object> appointmentsWithinDateRange(@RequestParam @Valid String ssn,
                                                               @RequestParam @Valid LocalDate startDate,
                                                               @RequestParam @Valid LocalDate endDate) {
@@ -78,5 +79,11 @@ public class PatientController {
     @PostMapping("/patient-info")
     public ResponseEntity<PatientDTO> info(@RequestParam @Valid String ssn) {
         return ResponseEntity.status(HttpStatus.OK).body(patientService.getInfo(ssn));
+    }
+
+    @PutMapping("/appointments/cancel/{ssn}")
+    public ResponseEntity<String> cancelAppointment(@PathVariable @Valid String ssn, @RequestParam @Valid UUID appointmentId) {
+        patientService.cancelAppointment(ssn, appointmentId);
+        return ResponseEntity.status(HttpStatus.OK).body("Appointment cancelled");
     }
 }

@@ -2,7 +2,6 @@ package com.ga5000.Clinic.services;
 
 import com.ga5000.Clinic.dtos.AppointmentDTO;
 import com.ga5000.Clinic.dtos.DoctorDTO;
-import com.ga5000.Clinic.entities.Appointment;
 import com.ga5000.Clinic.entities.enums.Speciality;
 import com.ga5000.Clinic.repositories.AppointmentRepository;
 import com.ga5000.Clinic.repositories.DoctorRepository;
