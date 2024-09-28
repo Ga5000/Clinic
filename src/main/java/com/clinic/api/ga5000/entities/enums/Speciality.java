@@ -1,0 +1,24 @@
+package com.clinic.api.ga5000.entities.enums;
+
+public enum Speciality {
+    CARDIOLOGY,
+    DERMATOLOGY,
+    GYNECOLOGY,
+    NEUROLOGY,
+    ORTHOPEDICS,
+    PEDIATRICS,
+    PSYCHIATRY,
+    RADIOLOGY,
+    GENERAL_PRACTICE,
+    OPHTHALMOLOGY,
+    ONCOLOGY,
+    ENT, // Ear, Nose, and Throat
+    UROLOGY,
+    ANESTHESIOLOGY,
+    RHEUMATOLOGY,
+    FAMILY_MEDICINE,
+    INTERNAL_MEDICINE,
+    SURGERY,
+    EMERGENCY_MEDICINE,
+    PHYSICAL_THERAPY
+}
