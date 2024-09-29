@@ -21,9 +21,6 @@ public abstract class UserEntity implements UserDetails {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     private UUID userId;
 
-    @Column(nullable = false, unique = true)
-    private String username;
-
     @Column(nullable = false)
     private String password;
 
@@ -56,10 +53,9 @@ public abstract class UserEntity implements UserDetails {
     @Column(nullable = false)
     private Role role;
 
-    public UserEntity(String username, String password, String email,
+    public UserEntity(String password, String email,
                       String firstName, String lastName, String phoneNumber, int age,
                       LocalDate birthDate, Genre genre, Address address, Role role) {
-        this.username = username;
         this.password = password;
         this.email = email;
         this.firstName = firstName;
@@ -84,15 +80,6 @@ public abstract class UserEntity implements UserDetails {
 
     public UUID getUserId() {
         return userId;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     @Override
@@ -208,11 +195,11 @@ public abstract class UserEntity implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserEntity that = (UserEntity) o;
-        return Objects.equals(username, that.username) && Objects.equals(email, that.email);
+        return Objects.equals(email, that.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(username, email);
+        return Objects.hash(email);
     }
 }

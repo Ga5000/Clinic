@@ -26,10 +26,10 @@ public class Doctor extends UserEntity {
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DoctorAvailability> availabilities;
 
-    public Doctor(String username, String password, String email, String firstName, String lastName, String phoneNumber,
+    public Doctor(String password, String email, String firstName, String lastName, String phoneNumber,
                   int age, LocalDate birthDate, Genre genre, Address address, Role role, String medicalLicense,
                   Speciality speciality, Set<Appointment> appointments, List<DoctorAvailability> availabilities) {
-        super(username, password, email, firstName, lastName, phoneNumber, age, birthDate, genre, address, role);
+        super(password, email, firstName, lastName, phoneNumber, age, birthDate, genre, address, role);
         this.medicalLicense = medicalLicense;
         this.speciality = speciality;
         this.appointments = appointments;
@@ -68,5 +68,10 @@ public class Doctor extends UserEntity {
 
     public void setAvailabilities(List<DoctorAvailability> availabilities) {
         this.availabilities = availabilities;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.getEmail();
     }
 }

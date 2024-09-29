@@ -28,7 +28,7 @@ public class Patient extends UserEntity {
     public Patient(String username, String password, String email, String firstName, String lastName, String phoneNumber,
                    int age, LocalDate birthDate, Genre genre, Address address, Role role, String ssn,
                    Set<Appointment> appointments, Set<Notification> notifications, Set<Insurance> insurances) {
-        super(username, password, email, firstName, lastName, phoneNumber, age, birthDate, genre, address, role);
+        super(password, email, firstName, lastName, phoneNumber, age, birthDate, genre, address, role);
         this.ssn = ssn;
         this.appointments = appointments;
         this.notifications = notifications;
@@ -65,5 +65,10 @@ public class Patient extends UserEntity {
 
     public void setInsurances(Set<Insurance> insurances) {
         this.insurances = insurances;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.getEmail();
     }
 }
