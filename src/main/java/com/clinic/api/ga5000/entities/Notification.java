@@ -26,9 +26,8 @@ public class Notification {
     @Column(nullable = false)
     private NotificationType type;
 
-    public Notification(UUID notificationId, String message, Patient recipient, LocalDateTime timestamp,
+    public Notification(String message, Patient recipient, LocalDateTime timestamp,
                         NotificationType type) {
-        this.notificationId = notificationId;
         this.message = message;
         this.recipient = recipient;
         this.timestamp = timestamp;

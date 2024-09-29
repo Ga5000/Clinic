@@ -2,8 +2,10 @@ package com.clinic.api.ga5000.utils;
 
 import com.clinic.api.ga5000.entities.Appointment;
 import com.clinic.api.ga5000.entities.Doctor;
+import com.clinic.api.ga5000.entities.Insurance;
 import com.clinic.api.ga5000.entities.Patient;
 import com.clinic.api.ga5000.exceptions.AppointmentNotFoundException;
+import com.clinic.api.ga5000.exceptions.InsuranceNotFoundException;
 import com.clinic.api.ga5000.exceptions.UserNotFoundException;
 import com.clinic.api.ga5000.repositories.*;
 import org.springframework.stereotype.Component;
@@ -32,8 +34,8 @@ public class Finder {
                 .orElseThrow(() -> new UserNotFoundException("Patient not found"));
     }
 
-    public Patient findPatientBySsn(String ssn){
-        return patientRepository.findBySsn(ssn)
+    public void findPatientBySsn(String ssn){
+        patientRepository.findBySsn(ssn)
                 .orElseThrow(() -> new UserNotFoundException("Patient not found"));
     }
 
@@ -42,14 +44,20 @@ public class Finder {
                 .orElseThrow(() -> new UserNotFoundException("Doctor not found"));
     }
 
-    public Doctor findDoctorByMedicalLicense(String medicalLicense){
-        return doctorRepository.findByMedicalLicense(medicalLicense)
+    public void findDoctorByMedicalLicense(String medicalLicense){
+        doctorRepository.findByMedicalLicense(medicalLicense)
                 .orElseThrow(() -> new UserNotFoundException("Doctor not found"));
     }
 
     public Appointment findAppointmentById(UUID id){
         return appointmentRepository.findById(id)
                 .orElseThrow(() -> new AppointmentNotFoundException("Appointment not found"));
+    }
+
+    public Insurance findInsuranceById(UUID id){
+        return insuranceRepository.findById(id)
+                .orElseThrow(() -> new InsuranceNotFoundException("Insurance not found"));
+
     }
 
 }
