@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 @Repository
@@ -46,5 +47,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
             @Param("speciality") Speciality speciality,
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate);
+
+
+    List<Appointment> findAppointmentByAppointmentDate(LocalDate date);
 
 }
