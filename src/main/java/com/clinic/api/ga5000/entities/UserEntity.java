@@ -16,6 +16,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "users")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class UserEntity implements UserDetails {
 
     @Id @GeneratedValue(strategy = GenerationType.UUID)

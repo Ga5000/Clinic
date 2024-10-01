@@ -25,7 +25,7 @@ public class Patient extends UserEntity {
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     private Set<Insurance> insurances;
 
-    public Patient(String username, String password, String email, String firstName, String lastName, String phoneNumber,
+    public Patient(String password, String email, String firstName, String lastName, String phoneNumber,
                    int age, LocalDate birthDate, Genre genre, Address address, Role role, String ssn,
                    Set<Appointment> appointments, Set<Notification> notifications, Set<Insurance> insurances) {
         super(password, email, firstName, lastName, phoneNumber, age, birthDate, genre, address, role);
@@ -42,6 +42,9 @@ public class Patient extends UserEntity {
         return ssn;
     }
 
+    public void setSsn(String ssn) {
+        this.ssn = ssn;
+    }
 
     public Set<Appointment> getAppointments() {
         return appointments;

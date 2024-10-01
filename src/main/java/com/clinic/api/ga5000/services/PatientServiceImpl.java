@@ -7,10 +7,12 @@ import com.clinic.api.ga5000.repositories.PatientRepository;
 import com.clinic.api.ga5000.services.interfaces.PatientService;
 import com.clinic.api.ga5000.utils.DtoConverter;
 import com.clinic.api.ga5000.utils.Finder;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class PatientServiceImpl implements PatientService {
 
     private final PatientRepository patientRepository;

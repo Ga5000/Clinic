@@ -24,12 +24,11 @@ public class TokenServiceImpl implements TokenService {
     public String generateToken(UserEntity user) {
         try{
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            String token = JWT.create()
+            return JWT.create()
                     .withIssuer("clinic-api")
                     .withSubject(user.getEmail())
                     .withExpiresAt(generateExpirationDate())
                     .sign(algorithm);
-            return token;
         }catch(JWTCreationException e){
             throw new TokenException("Error while generating token");
         }

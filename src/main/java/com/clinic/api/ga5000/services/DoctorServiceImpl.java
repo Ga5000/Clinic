@@ -7,10 +7,12 @@ import com.clinic.api.ga5000.repositories.DoctorRepository;
 import com.clinic.api.ga5000.services.interfaces.DoctorService;
 import com.clinic.api.ga5000.utils.DtoConverter;
 import com.clinic.api.ga5000.utils.Finder;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class DoctorServiceImpl implements DoctorService {
     private final DoctorRepository doctorRepository;
     private final Finder finder;

@@ -26,8 +26,8 @@ public class Doctor extends UserEntity {
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DoctorAvailability> availabilities;
 
-    public Doctor(String password, String email, String firstName, String lastName, String phoneNumber,
-                  int age, LocalDate birthDate, Genre genre, Address address, Role role, String medicalLicense,
+    public Doctor(String medicalLicense,String password, String email, String firstName, String lastName, String phoneNumber,
+                  int age, LocalDate birthDate, Genre genre, Address address, Role role,
                   Speciality speciality, Set<Appointment> appointments, List<DoctorAvailability> availabilities) {
         super(password, email, firstName, lastName, phoneNumber, age, birthDate, genre, address, role);
         this.medicalLicense = medicalLicense;
@@ -36,6 +36,7 @@ public class Doctor extends UserEntity {
         this.availabilities = availabilities;
         setRole(Role.DOCTOR);
     }
+
     public Doctor() {}
 
     public String getMedicalLicense() {
@@ -44,6 +45,7 @@ public class Doctor extends UserEntity {
 
     public void setMedicalLicense(String medicalLicense) {
         this.medicalLicense = medicalLicense;
+
     }
 
     public Speciality getSpeciality() {
