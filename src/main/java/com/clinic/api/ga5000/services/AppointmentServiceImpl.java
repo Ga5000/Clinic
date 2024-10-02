@@ -39,7 +39,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     public void cancelAppointment(UUID appointmentId, String ssn, String medicalLicense) {
         finder.findAppointmentById(appointmentId);
         finder.findDoctorByMedicalLicense(medicalLicense);
-        appointmentRepository.cancelAppointment(appointmentId,null,medicalLicense);
+        appointmentRepository.cancelAppointment(appointmentId,ssn,medicalLicense);
     }
 
     @Override
