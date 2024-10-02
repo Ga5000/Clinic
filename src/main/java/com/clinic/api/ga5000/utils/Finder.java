@@ -49,6 +49,11 @@ public class Finder {
                 .orElseThrow(() -> new UserNotFoundException("Doctor not found"));
     }
 
+    public Doctor findDoctorByMedicalLicense2(String medicalLicense){
+        return doctorRepository.findByMedicalLicense(medicalLicense)
+                .orElseThrow(() -> new UserNotFoundException("Doctor not found"));
+    }
+
     public Appointment findAppointmentById(UUID id){
         return appointmentRepository.findById(id)
                 .orElseThrow(() -> new AppointmentNotFoundException("Appointment not found"));

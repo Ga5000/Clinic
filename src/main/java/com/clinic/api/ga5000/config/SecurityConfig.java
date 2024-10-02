@@ -29,8 +29,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/register/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/auth/account/delete").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/patients").hasAnyRole("PATIENT", "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/auth/account/delete").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/patients/all-patients").hasRole("ADMIN")
+                        .requestMatchers("/api/patients/patient-info/**").hasAnyRole("ADMIN", "PATIENT")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

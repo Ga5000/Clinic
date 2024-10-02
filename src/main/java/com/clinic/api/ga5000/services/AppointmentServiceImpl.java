@@ -4,18 +4,18 @@ import com.clinic.api.ga5000.dtos.AppointmentDTO;
 import com.clinic.api.ga5000.entities.Appointment;
 
 import com.clinic.api.ga5000.entities.enums.Speciality;
-import com.clinic.api.ga5000.exceptions.AppointmentNotFoundException;
 import com.clinic.api.ga5000.repositories.AppointmentRepository;
 import com.clinic.api.ga5000.services.interfaces.AppointmentService;
 import com.clinic.api.ga5000.utils.DtoConverter;
 import com.clinic.api.ga5000.utils.Finder;
-import jakarta.persistence.Tuple;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Service
 public class AppointmentServiceImpl implements AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final Finder finder;
