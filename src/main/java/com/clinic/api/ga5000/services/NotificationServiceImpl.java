@@ -7,6 +7,8 @@ import com.clinic.api.ga5000.repositories.AppointmentRepository;
 import com.clinic.api.ga5000.repositories.NotificationRepository;
 import com.clinic.api.ga5000.services.interfaces.NotificationService;
 import com.clinic.api.ga5000.utils.DtoConverter;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -67,8 +69,37 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void sendCancelationNotification(Appointment appointment) {
         SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(appointment.getPatient().getEmail());
+        message.setSubject("Appointment Cancellation");
 
+        String appointmentDetails = String.format(
+                """
+                We regret to inform you that your appointment has been canceled.
+                Appointment details:
+                Doctor: %s
+                Date: %s
+                Time: %s
+                Fee: %.2f""",
+                DtoConverter.convertToDoctorDTO(appointment.getDoctor()),
+                appointment.getAppointmentDate(),
+                appointment.getAppointmentTime(),
+                appointment.getFee()
+        );
+
+        message.setText(appointmentDetails);
+        message.setFrom("gbr.lisboa@gmail.com");
+        mailSender.send(message);
+
+        Notification notification = new Notification(
+                message.getText(),
+                appointment.getPatient(),
+                LocalDateTime.now(),
+                NotificationType.APPOINTMENT_CANCELLATION
+        );
+
+        notificationRepository.save(notification);
     }
+
 
     @Override
     public void sendConfirmationNotification(Appointment appointment) {

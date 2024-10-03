@@ -3,13 +3,15 @@ package com.clinic.api.ga5000.services.interfaces;
 import com.clinic.api.ga5000.dtos.AppointmentDTO;
 import com.clinic.api.ga5000.entities.Appointment;
 import com.clinic.api.ga5000.entities.enums.Speciality;
-import jakarta.persistence.Tuple;
 
 import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
 
 public interface AppointmentService {
+
+    //mark as finished
+    void markAsFinished(UUID appointmentId);
 
     // Create a new appointment
     void createAppointment(Appointment appointment);

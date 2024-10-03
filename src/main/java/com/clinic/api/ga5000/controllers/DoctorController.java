@@ -1,6 +1,7 @@
 package com.clinic.api.ga5000.controllers;
 
 import com.clinic.api.ga5000.dtos.DoctorDTO;
+import com.clinic.api.ga5000.entities.enums.Speciality;
 import com.clinic.api.ga5000.services.DoctorServiceImpl;
 
 import com.clinic.api.ga5000.utils.SecurityUtil;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,5 +39,11 @@ public class DoctorController {
     public ResponseEntity<List<DoctorDTO>> getAllDoctors() {
         List<DoctorDTO> doctors = doctorService.getAllDoctors();
         return ResponseEntity.status(HttpStatus.OK).body(doctors);
+    }
+
+    @GetMapping("/specialities")
+    public ResponseEntity<List<Speciality>> getSpecialities() {
+        List<Speciality> specialities =  Arrays.stream(Speciality.class.getEnumConstants()).toList();
+        return ResponseEntity.status(HttpStatus.OK).body(specialities);
     }
 }

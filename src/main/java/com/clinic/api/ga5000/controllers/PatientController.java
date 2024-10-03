@@ -35,4 +35,6 @@ public class PatientController {
         List<PatientDTO> patients = patientService.getAllPatients();
         return ResponseEntity.status(HttpStatus.OK).body(patients);
     }
+
+
 }

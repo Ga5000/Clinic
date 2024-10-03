@@ -1,5 +1,6 @@
 package com.clinic.api.ga5000;
 
+import com.clinic.api.ga5000.services.NotificationServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

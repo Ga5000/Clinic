@@ -34,14 +34,32 @@ public class Appointment {
     @JoinColumn(name = "medicalLicense", referencedColumnName = "medicalLicense", nullable = false)
     private Doctor doctor;
 
-    public Appointment(LocalDate appointmentDate, LocalTime appointmentTime, double fee, Patient patient,
-                       Doctor doctor, AppointmentStatus status) {
+    public Appointment(LocalDate appointmentDate, LocalTime appointmentTime, Patient patient, Doctor doctor) {
         this.appointmentDate = appointmentDate;
         this.appointmentTime = appointmentTime;
-        this.fee = fee;
         this.patient = patient;
         this.doctor = doctor;
-        this.status = AppointmentStatus.SCHEDULED;
+
+        switch (doctor.getSpeciality()) {
+            case CARDIOLOGY -> this.fee = 200.00;
+            case DERMATOLOGY -> this.fee = 150.00;
+            case GYNECOLOGY, UROLOGY -> this.fee = 180.00;
+            case NEUROLOGY, EMERGENCY_MEDICINE -> this.fee = 250.00;
+            case ORTHOPEDICS -> this.fee = 170.00;
+            case PEDIATRICS -> this.fee = 120.00;
+            case PSYCHIATRY, RHEUMATOLOGY -> this.fee = 160.00;
+            case RADIOLOGY -> this.fee = 220.00;
+            case GENERAL_PRACTICE -> this.fee = 100.00;
+            case OPHTHALMOLOGY -> this.fee = 140.00;
+            case ONCOLOGY -> this.fee = 230.00;
+            case ENT -> this.fee = 130.00;
+            case ANESTHESIOLOGY -> this.fee = 210.00;
+            case FAMILY_MEDICINE -> this.fee = 110.00;
+            case INTERNAL_MEDICINE -> this.fee = 190.00;
+            case SURGERY -> this.fee = 300.00;
+            case PHYSICAL_THERAPY -> this.fee = 90.00;
+            default -> throw new IllegalArgumentException("Unknown speciality");
+        }
     }
 
     public Appointment() {}

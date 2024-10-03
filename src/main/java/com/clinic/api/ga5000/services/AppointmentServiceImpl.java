@@ -4,6 +4,7 @@ import com.clinic.api.ga5000.dtos.AppointmentDTO;
 import com.clinic.api.ga5000.entities.Appointment;
 
 import com.clinic.api.ga5000.entities.Doctor;
+import com.clinic.api.ga5000.entities.enums.AppointmentStatus;
 import com.clinic.api.ga5000.entities.enums.Speciality;
 import com.clinic.api.ga5000.repositories.AppointmentRepository;
 import com.clinic.api.ga5000.services.interfaces.AppointmentService;
@@ -12,7 +13,6 @@ import com.clinic.api.ga5000.utils.Finder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -31,9 +31,16 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public void markAsFinished(UUID appointmentId) {
+        Appointment appointment = finder.findAppointmentById(appointmentId);
+        appointment.setStatus(AppointmentStatus.FINISHED);
+        appointmentRepository.save(appointment);
+    }
+
+    @Override
     public void createAppointment(Appointment appointment) {
         appointmentRepository.save(appointment);
-        notificationService.sendCancelationNotification(appointment);
+        notificationService.sendConfirmationNotification(appointment);
     }
 
     @Override

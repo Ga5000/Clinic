@@ -46,8 +46,8 @@ public class AppointmentController {
 
 
         Doctor doctor = finder.findDoctorByMedicalLicense2(medicalLicense);
-        Appointment appointment = new Appointment(appointmentDate,appointmentTime,0,patient,doctor,
-                AppointmentStatus.SCHEDULED);
+        Appointment appointment = new Appointment(appointmentDate,appointmentTime,patient,doctor);
+        appointment.setStatus(AppointmentStatus.SCHEDULED);
 
         appointmentService.createAppointment(appointment);
         return ResponseEntity.status(HttpStatus.CREATED).body("Appointment made successfully");
@@ -86,6 +86,16 @@ public class AppointmentController {
         appointmentService.cancelAllAppointmentsOfADay(date,medicalLicense);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PutMapping("/mark-as-finished")
+    public ResponseEntity<String> markAppointmentAsFinished(@RequestParam UUID appointmentId, @RequestParam String medicalLicense) {
+        Doctor doctor = finder.findDoctorByMedicalLicense2(medicalLicense);
+        if(doctor == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        if(!securityUtil.isAuthorized(doctor.getUsername())) return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
+        appointmentService.markAsFinished(appointmentId);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Appointment marked as finished");
     }
 
     @GetMapping("/doctor")
