@@ -7,16 +7,16 @@ import com.clinic.api.ga5000.repositories.AppointmentRepository;
 import com.clinic.api.ga5000.repositories.NotificationRepository;
 import com.clinic.api.ga5000.services.interfaces.NotificationService;
 import com.clinic.api.ga5000.utils.DtoConverter;
-import jakarta.persistence.Tuple;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
+@Service
 public class NotificationServiceImpl implements NotificationService {
     private final NotificationRepository notificationRepository;
     private final AppointmentRepository appointmentRepository;
@@ -67,6 +67,7 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void sendCancelationNotification(Appointment appointment) {
         SimpleMailMessage message = new SimpleMailMessage();
+
     }
 
     @Override

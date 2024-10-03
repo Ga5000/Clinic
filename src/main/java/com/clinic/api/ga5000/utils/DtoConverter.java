@@ -6,6 +6,7 @@ import com.clinic.api.ga5000.entities.enums.AppointmentStatus;
 import com.clinic.api.ga5000.entities.enums.Speciality;
 import jakarta.persistence.Tuple;
 
+import javax.print.Doc;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
@@ -35,6 +36,7 @@ public class DtoConverter {
                 appointment.getStatus()
         );
     }
+
 
     public static DoctorDTO convertToDoctorDTO(Doctor doctor){
         return new DoctorDTO(
@@ -83,4 +85,5 @@ public class DtoConverter {
                 doctorAvailability.getEndTime()
         );
     }
+
 }

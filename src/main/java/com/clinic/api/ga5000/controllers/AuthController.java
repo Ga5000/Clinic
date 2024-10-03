@@ -22,7 +22,8 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody @Valid LoginDTO loginDTO){
-        return ResponseEntity.status(HttpStatus.OK).body(authService.login(loginDTO));
+        String token = authService.login(loginDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 
     @PostMapping("/register/patient")
@@ -43,6 +44,7 @@ public class AuthController {
         authService.deleteUser(deleteAccountDTO);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
 
 
 }

@@ -1,10 +1,8 @@
 package com.clinic.api.ga5000.utils;
 
-import com.clinic.api.ga5000.entities.Appointment;
-import com.clinic.api.ga5000.entities.Doctor;
-import com.clinic.api.ga5000.entities.Insurance;
-import com.clinic.api.ga5000.entities.Patient;
+import com.clinic.api.ga5000.entities.*;
 import com.clinic.api.ga5000.exceptions.AppointmentNotFoundException;
+import com.clinic.api.ga5000.exceptions.AvailabilityNotFoundException;
 import com.clinic.api.ga5000.exceptions.InsuranceNotFoundException;
 import com.clinic.api.ga5000.exceptions.UserNotFoundException;
 import com.clinic.api.ga5000.repositories.*;
@@ -68,6 +66,11 @@ public class Finder {
         return insuranceRepository.findById(id)
                 .orElseThrow(() -> new InsuranceNotFoundException("Insurance not found"));
 
+    }
+
+    public DoctorAvailability findAvailabilityById(UUID id){
+        return doctorAvailabilityRepository.findById(id)
+                .orElseThrow(() -> new AvailabilityNotFoundException("Availability not found"));
     }
 
 }

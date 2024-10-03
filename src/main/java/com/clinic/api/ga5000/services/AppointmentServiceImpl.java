@@ -3,6 +3,7 @@ package com.clinic.api.ga5000.services;
 import com.clinic.api.ga5000.dtos.AppointmentDTO;
 import com.clinic.api.ga5000.entities.Appointment;
 
+import com.clinic.api.ga5000.entities.Doctor;
 import com.clinic.api.ga5000.entities.enums.Speciality;
 import com.clinic.api.ga5000.repositories.AppointmentRepository;
 import com.clinic.api.ga5000.services.interfaces.AppointmentService;
@@ -11,6 +12,7 @@ import com.clinic.api.ga5000.utils.Finder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -19,15 +21,19 @@ import java.util.stream.Collectors;
 public class AppointmentServiceImpl implements AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final Finder finder;
+    private final NotificationServiceImpl notificationService;
 
-    public AppointmentServiceImpl(AppointmentRepository appointmentRepository, Finder finder) {
+    public AppointmentServiceImpl(AppointmentRepository appointmentRepository, Finder finder,
+                                  NotificationServiceImpl notificationService) {
         this.appointmentRepository = appointmentRepository;
         this.finder = finder;
+        this.notificationService = notificationService;
     }
 
     @Override
     public void createAppointment(Appointment appointment) {
         appointmentRepository.save(appointment);
+        notificationService.sendCancelationNotification(appointment);
     }
 
     @Override
@@ -37,15 +43,21 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public void cancelAppointment(UUID appointmentId, String ssn, String medicalLicense) {
-        finder.findAppointmentById(appointmentId);
+        Appointment appointment = finder.findAppointmentById(appointmentId);
         finder.findDoctorByMedicalLicense(medicalLicense);
         appointmentRepository.cancelAppointment(appointmentId,ssn,medicalLicense);
+        notificationService.sendCancelationNotification(appointment);
     }
 
     @Override
     public void cancelAllAppointmentsOfADay(LocalDate date, String medicalLicense) {
-       finder.findDoctorByMedicalLicense(medicalLicense);
+       Doctor doctor = finder.findDoctorByMedicalLicense2(medicalLicense);
+        Set<Appointment> appointments = appointmentRepository.findAppointmentByAppointmentDateAndDoctorMedicalLicense(date, medicalLicense);
         appointmentRepository.cancelAllAppointmentsOfADay(date, medicalLicense);
+        for(Appointment appointment : appointments){
+            notificationService.sendCancelationNotification(appointment);
+        }
+
     }
 
     @Override

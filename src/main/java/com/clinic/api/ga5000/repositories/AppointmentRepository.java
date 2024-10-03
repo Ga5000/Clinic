@@ -51,4 +51,5 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
 
     List<Appointment> findAppointmentByAppointmentDate(LocalDate date);
 
+    Set<Appointment> findAppointmentByAppointmentDateAndDoctorMedicalLicense(LocalDate appointmentDate, String doctor_medicalLicense);
 }

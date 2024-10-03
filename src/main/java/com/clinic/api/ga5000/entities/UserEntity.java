@@ -203,4 +203,9 @@ public abstract class UserEntity implements UserDetails {
     public int hashCode() {
         return Objects.hash(email);
     }
+
+    @Override
+    public String getUsername(){
+        return this.getEmail();
+    }
 }
