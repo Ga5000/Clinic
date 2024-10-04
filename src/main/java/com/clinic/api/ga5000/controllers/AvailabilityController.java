@@ -4,13 +4,18 @@ import com.clinic.api.ga5000.dtos.AddAvailabilityDTO;
 import com.clinic.api.ga5000.dtos.AvailabilityDTO;
 import com.clinic.api.ga5000.entities.Doctor;
 import com.clinic.api.ga5000.entities.DoctorAvailability;
+import com.clinic.api.ga5000.entities.enums.Speciality;
+import com.clinic.api.ga5000.entities.enums.USState;
 import com.clinic.api.ga5000.services.AvailabilityServiceImpl;
+import com.clinic.api.ga5000.utils.DtoConverter;
 import com.clinic.api.ga5000.utils.Finder;
 import com.clinic.api.ga5000.utils.SecurityUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -53,13 +58,13 @@ public class AvailabilityController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Availabilities added successfully");
     }
 
-    @GetMapping("/{medicalLicense}")
+    @GetMapping("/doctor/{medicalLicense}")
     public ResponseEntity<List<AvailabilityDTO>> getDoctorAvailability(@PathVariable String medicalLicense) {
         List<AvailabilityDTO> availability = availabilityService.getDoctorAvailabilityByMedicalLicense(medicalLicense);
         if (availability.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.ok(availability);
+        return ResponseEntity.status(HttpStatus.OK).body(availability);
     }
 
     @DeleteMapping("/delete/{availabilityId}")
@@ -75,11 +80,21 @@ public class AvailabilityController {
     }
 
     @GetMapping("/find/{availabilityId}")
-    public ResponseEntity<DoctorAvailability> getAvailabilityById(@PathVariable UUID availabilityId) {
+    public ResponseEntity<AvailabilityDTO> getAvailabilityById(@PathVariable UUID availabilityId) {
         DoctorAvailability availability = availabilityService.getDoctorAvailabilityById(availabilityId);
         if (availability == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.status(HttpStatus.OK).body(availability);
+        return ResponseEntity.status(HttpStatus.OK).body(DtoConverter.convertToAvailabilityDTO(availability));
+    }
+
+    @GetMapping("/find")
+    public ResponseEntity<List<AvailabilityDTO>> getDoctorAvailabilityByDateTimeAndLocationAndSpeciality(@RequestParam LocalDate date,@RequestParam  LocalTime time,
+                                                                                                         @RequestParam String city, @RequestParam USState state,
+                                                                                                         @RequestParam Speciality speciality){
+        List<AvailabilityDTO> availabilities =  availabilityService.getDoctorAvailabilityByDateTimeAndLocationAndSpeciality(date, time,city,state,speciality);
+        return ResponseEntity.status(HttpStatus.OK).body(availabilities);
+
+
     }
 }
